@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regret Analysis | Reddit Life-Domain Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --reddit-red: #FF4500;
+      --red-dark: #CC3700;
+      --red-light: #FF6B35;
+      --bg: #F9F9F9;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #5C5C5C;
+      --accent-bg: #FFF5F2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--reddit-red) 0%, var(--red-dark) 100%);
+      color: white;
+      padding: 2rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    .header-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.9);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .header-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+    .nav {
+      background: var(--red-dark);
+      padding: 0.75rem 2rem;
+      border-top: 2px solid var(--red-light);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav a:hover {
+      color: #FFB399;
+    }
+
+    .nav a.active {
+      color: #FFB399;
+      border-bottom: 1px solid #FFB399;
+    }
+
+    /* Main content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--red-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--reddit-red);
+    }
+
+    .card p {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout {
+      background: var(--accent-bg);
+      border-left: 4px solid var(--reddit-red);
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: 0.95rem;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--red-dark);
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: var(--red-dark);
+      color: white;
+      font-weight: 600;
+      text-align: left;
+      padding: 0.75rem 1rem;
+    }
+
+    td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    /* Numbered list */
+    .pipeline {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .pipeline li {
+      margin-bottom: 0.85rem;
+    }
+
+    .pipeline strong {
+      color: var(--red-dark);
+    }
+
+    /* Analytics grid */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .analytics-item {
+      background: #fafafa;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #eee;
+    }
+
+    .analytics-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .analytics-item figcaption {
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Repo link */
+    .repo-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--reddit-red);
+      color: white;
+      text-decoration: none;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 6px;
+    }
+
+    .repo-link:hover {
+      background: var(--red-dark);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--red-dark);
+      color: rgba(255,255,255,0.85);
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: #FFB399;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-label">Data Science · Life-Domain Analysis</div>
+    <h1>Regret Analysis</h1>
+    <p class="header-subtitle">Understanding regret patterns across career, immigration, and relationships using Reddit discourse</p>
+  </header>
+
+  <nav class="nav">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#dataset">Dataset</a>
+    <a href="#methods">Methods</a>
+    <a href="#analytics">Analytics</a>
+  </nav>
+
+  <main class="container">
+    <section id="overview" class="card">
+      <h2 class="section-title">Project Overview</h2>
+      <p>
+        People often express regret in high-stakes life decisions—career changes, immigration moves, relationship choices.
+        This project applies <strong>regret analysis</strong> to large-scale Reddit text data to identify patterns in how
+        people articulate regret, how quickly they express it, and whether they report reversing their decisions.
+      </p>
+      <p>
+        We collect posts from domain-specific subreddits (e.g., r/cscareerquestions, r/immigration, r/relationship_advice),
+        filter for regret-related language, and build structured features including <strong>urgency scores</strong>,
+        <strong>time to regret</strong>, and <strong>reversal indicators</strong>. We then apply survival analysis,
+        Cox regression, and classification models to explore predictors of regret and decision reversal.
+      </p>
+      <div class="callout">
+        <strong>Research Question</strong>
+        What factors—linguistic urgency, decision domain, or elapsed time—predict whether someone reporting regret will
+        also report having reversed their decision (e.g., quit a job, left a relationship, moved back)?
+      </div>
+    </section>
+
+    <section id="dataset" class="card">
+      <h2 class="section-title">Dataset</h2>
+      <p>
+        Data is collected from Reddit's public API using domain-specific subreddits across three life domains. Posts are
+        filtered for regret-related phrases (e.g., "I regret", "I wish I had", "my biggest mistake") and enriched with
+        urgency indicators, reversal signals, and extracted time-to-regret when mentioned in text.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Total regret posts (structured)</td><td>~103,000</td></tr>
+            <tr><td>Raw posts collected</td><td>~520,000</td></tr>
+            <tr><td>Domains</td><td>Career, Immigration, Relationships</td></tr>
+            <tr><td>Source</td><td>Reddit (r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/relationship_advice, r/relationships)</td></tr>
+            <tr><td>Key features</td><td>urgency_score, reversal, time_to_regret_days, regret_sentence, topic</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        Data is collected via Reddit's public JSON API. Full collection and processing code is available in the repository.
+      </p>
+    </section>
+
+    <section id="methods" class="card">
+      <h2 class="section-title">Methods & Pipeline</h2>
+      <p>Our analysis follows a standard data science workflow:</p>
+      <ol class="pipeline">
+        <li><strong>Data Collection</strong> — Reddit API scraping of domain subreddits (new/top/hot listings and regret-focused search queries).</li>
+        <li><strong>Regret Filtering</strong> — Pattern-based extraction of posts containing regret language, with exclusion of hypothetical or future-oriented regret.</li>
+        <li><strong>Feature Engineering</strong> — Urgency scores from lexical cues (e.g., "rushed", "pressure", "deadline"); reversal labels from action verbs (e.g., "quit", "divorced"); time-to-regret from temporal expressions.</li>
+        <li><strong>Exploratory Data Analysis</strong> — Distribution of urgency, time to regret, reversal rates by domain; correlation analysis; topic modeling (NMF).</li>
+        <li><strong>Modeling</strong> — Reversal classification (TF-IDF + logistic regression); survival analysis (Kaplan–Meier); Cox regression for time-to-regret.</li>
+        <li><strong>Visualization</strong> — EDA plots, domain comparisons, and interactive dashboards.</li>
+      </ol>
+      <a href="https://github.com/VeedhiBhanushali/regret-analysis" class="repo-link" target="_blank" rel="noopener">View on GitHub →</a>
+    </section>
+
+    <section id="analytics" class="card">
+      <h2 class="section-title">Analytics</h2>
+      <p>Key exploratory visualizations from the structured regret dataset:</p>
+      <div class="analytics-grid">
+        <figure class="analytics-item">
+          <img src="plots/1_urgency_score_hist.png" alt="Distribution of Urgency Score">
+          <figcaption>Distribution of Urgency Score</figcaption>
+        </figure>
+        <figure class="analytics-item">
+          <img src="plots/3_posts_by_domain.png" alt="Regret Posts by Domain">
+          <figcaption>Regret Posts by Domain</figcaption>
+        </figure>
+        <figure class="analytics-item">
+          <img src="plots/4_reversal_rate_by_domain.png" alt="Reversal Rate by Domain">
+          <figcaption>Reversal Rate by Domain</figcaption>
+        </figure>
+        <figure class="analytics-item">
+          <img src="plots/8_urgency_by_domain.png" alt="Urgency Score by Domain">
+          <figcaption>Urgency Score by Domain</figcaption>
+        </figure>
+        <figure class="analytics-item">
+          <img src="plots/9_time_availability_by_domain.png" alt="Time-to-Regret Availability by Domain">
+          <figcaption>Time-to-Regret Availability by Domain</figcaption>
+        </figure>
+        <figure class="analytics-item">
+          <img src="plots/7_correlation_heatmap.png" alt="Correlation Heatmap">
+          <figcaption>Correlation Heatmap</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2026 Regret Analysis. <a href="https://github.com/VeedhiBhanushali/regret-analysis">GitHub Repository</a>
+  </footer>
+
+  <script>
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    document.querySelectorAll('.nav a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
+        a.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
