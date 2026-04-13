@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regret Analysis | Reddit Life-Domain Study</title>
+  <title>Regret Analysis | Preliminary Results</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -19,9 +19,7 @@
       --accent-bg: #FFF5F2;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -31,7 +29,6 @@
       line-height: 1.6;
     }
 
-    /* Header */
     .header {
       background: linear-gradient(135deg, var(--reddit-red) 0%, var(--red-dark) 100%);
       color: white;
@@ -58,11 +55,10 @@
     .header-subtitle {
       font-size: 1.1rem;
       opacity: 0.95;
-      max-width: 32rem;
+      max-width: 34rem;
       margin: 0 auto;
     }
 
-    /* Navigation */
     .nav {
       background: var(--red-dark);
       padding: 0.75rem 2rem;
@@ -71,28 +67,26 @@
       justify-content: center;
       gap: 2rem;
       flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .nav a {
       font-family: 'Source Sans 3', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       letter-spacing: 0.05em;
       color: white;
       text-decoration: none;
       text-transform: uppercase;
     }
 
-    .nav a:hover {
-      color: #FFB399;
-    }
-
-    .nav a.active {
+    .nav a:hover, .nav a.active {
       color: #FFB399;
       border-bottom: 1px solid #FFB399;
     }
 
-    /* Main content */
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -119,14 +113,8 @@
       border-bottom: 3px solid var(--reddit-red);
     }
 
-    .card p {
-      margin: 0 0 1rem;
-      font-size: 1.05rem;
-    }
-
-    .card p:last-child {
-      margin-bottom: 0;
-    }
+    .card p { margin: 0 0 1rem; font-size: 1.05rem; }
+    .card p:last-child { margin-bottom: 0; }
 
     .callout {
       background: var(--accent-bg);
@@ -142,11 +130,7 @@
       color: var(--red-dark);
     }
 
-    /* Table */
-    .table-wrap {
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
+    .table-wrap { overflow-x: auto; margin: 1rem 0; }
 
     table {
       width: 100%;
@@ -168,52 +152,153 @@
       border-bottom: 1px solid #eee;
     }
 
-    tr:nth-child(even) {
-      background: #fafafa;
+    tr:nth-child(even) { background: #fafafa; }
+
+    .pipeline { margin: 0; padding-left: 1.5rem; }
+    .pipeline li { margin-bottom: 0.65rem; }
+    .pipeline strong { color: var(--red-dark); }
+
+    /* Hypothesis cards */
+    .hypothesis-card {
+      background: var(--card);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      border-top: 4px solid var(--reddit-red);
     }
 
-    /* Numbered list */
-    .pipeline {
-      margin: 0;
-      padding-left: 1.5rem;
+    .hypothesis-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--reddit-red);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.25rem;
     }
 
-    .pipeline li {
-      margin-bottom: 0.85rem;
+    .hypothesis-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      color: var(--text);
     }
 
-    .pipeline strong {
-      color: var(--red-dark);
-    }
-
-    /* Analytics grid */
-    .analytics-grid {
+    .finding-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 0.25rem 0.75rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.98rem;
     }
 
-    .analytics-item {
-      background: #fafafa;
-      border-radius: 6px;
-      overflow: hidden;
+    .finding-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--red-dark);
+      padding-top: 0.15rem;
+    }
+
+    .figure-block {
+      margin: 1.5rem 0;
+    }
+
+    .figure-block img {
+      width: 100%;
+      max-width: 560px;
+      display: block;
+      border-radius: 4px;
       border: 1px solid #eee;
     }
 
-    .analytics-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .analytics-item figcaption {
-      padding: 0.75rem 1rem;
-      font-size: 0.9rem;
+    .figure-caption {
+      font-size: 0.88rem;
       color: var(--text-muted);
+      margin-top: 0.5rem;
+      line-height: 1.5;
     }
 
-    /* Repo link */
+    .figure-interpretation {
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--accent-bg);
+      border-radius: 4px;
+    }
+
+    .figure-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .figure-pair .figure-block { margin: 0; }
+
+    @media (max-width: 640px) {
+      .figure-pair { grid-template-columns: 1fr; }
+    }
+
+    .next-steps {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: #f5f5f5;
+      border-radius: 4px;
+      font-size: 0.93rem;
+    }
+
+    .next-steps strong {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .next-steps ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .next-steps li { margin-bottom: 0.3rem; }
+
+    .metric-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .metric-box {
+      background: var(--accent-bg);
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .metric-value {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--red-dark);
+    }
+
+    .metric-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
     .repo-link {
       display: inline-block;
       margin-top: 1rem;
@@ -227,11 +312,8 @@
       border-radius: 6px;
     }
 
-    .repo-link:hover {
-      background: var(--red-dark);
-    }
+    .repo-link:hover { background: var(--red-dark); }
 
-    /* Footer */
     .footer {
       background: var(--red-dark);
       color: rgba(255,255,255,0.85);
@@ -245,8 +327,32 @@
       text-decoration: none;
     }
 
-    .footer a:hover {
-      text-decoration: underline;
+    .footer a:hover { text-decoration: underline; }
+
+    .skim-heading {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--reddit-red);
+      margin: 1.25rem 0 0.4rem;
+    }
+
+    .skim-p {
+      font-size: 0.98rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .synthesis-card {
+      background: var(--card);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border-left: 5px solid var(--reddit-red);
+      font-size: 1.05rem;
+      line-height: 1.65;
     }
   </style>
 </head>
@@ -254,125 +360,312 @@
   <header class="header">
     <div class="header-label">Data Science · Life-Domain Analysis</div>
     <h1>Regret Analysis</h1>
-    <p class="header-subtitle">Understanding regret patterns across career, immigration, and relationships using Reddit discourse</p>
+    <p class="header-subtitle">Preliminary results: understanding regret patterns across career, immigration, and relationships using Reddit discourse</p>
   </header>
 
   <nav class="nav">
-    <a href="#overview" class="active">Overview</a>
+    <a href="#overview">Overview</a>
     <a href="#dataset">Dataset</a>
     <a href="#methods">Methods</a>
-    <a href="#analytics">Analytics</a>
+    <a href="#results" class="active">Results</a>
   </nav>
 
   <main class="container">
+
+    <!-- OVERVIEW (condensed) -->
     <section id="overview" class="card">
       <h2 class="section-title">Project Overview</h2>
       <p>
-        People often express regret in high-stakes life decisions—career changes, immigration moves, relationship choices.
-        This project applies <strong>regret analysis</strong> to large-scale Reddit text data to identify patterns in how
-        people articulate regret, how quickly they express it, and whether they report reversing their decisions.
-      </p>
-      <p>
-        We collect posts from domain-specific subreddits (e.g., r/cscareerquestions, r/immigration, r/relationship_advice),
-        filter for regret-related language, and build structured features including <strong>urgency scores</strong>,
-        <strong>time to regret</strong>, and <strong>reversal indicators</strong>. We then apply survival analysis,
-        Cox regression, and classification models to explore predictors of regret and decision reversal.
+        People express regret after high-stakes life decisions: career changes, immigration moves, relationship choices.
+        This project collects regret-related posts from Reddit, engineers structured features (urgency scores, reversal indicators, time-to-regret), and uses statistical and machine-learning methods to understand what predicts decision reversal.
       </p>
       <div class="callout">
-        <strong>Research Question</strong>
-        What factors—linguistic urgency, decision domain, or elapsed time—predict whether someone reporting regret will
-        also report having reversed their decision (e.g., quit a job, left a relationship, moved back)?
+        <strong>Core Question</strong>
+        What factors (linguistic urgency, decision domain, or elapsed time) predict whether someone reporting regret will also report having reversed their decision?
       </div>
     </section>
 
+    <!-- DATASET (with honest numbers) -->
     <section id="dataset" class="card">
       <h2 class="section-title">Dataset</h2>
       <p>
-        Data is collected from Reddit's public API using domain-specific subreddits across three life domains. Posts are
-        filtered for regret-related phrases (e.g., "I regret", "I wish I had", "my biggest mistake") and enriched with
-        urgency indicators, reversal signals, and extracted time-to-regret when mentioned in text.
+        Data is collected from Reddit's public JSON API across nine subreddits in three life domains.
+        Posts are filtered for explicit regret language (e.g., "I regret", "I wish I had", "my biggest mistake")
+        and screened to exclude hypothetical or future-oriented regret.
       </p>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
+            <tr><th>Property</th><th>Value</th></tr>
           </thead>
           <tbody>
-            <tr><td>Total regret posts (structured)</td><td>~103,000</td></tr>
-            <tr><td>Raw posts collected</td><td>~520,000</td></tr>
-            <tr><td>Domains</td><td>Career, Immigration, Relationships</td></tr>
-            <tr><td>Source</td><td>Reddit (r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/relationship_advice, r/relationships)</td></tr>
-            <tr><td>Key features</td><td>urgency_score, reversal, time_to_regret_days, regret_sentence, topic</td></tr>
+            <tr><td>Raw posts collected</td><td>~21,800 across nine subreddits</td></tr>
+            <tr><td>Filtered regret posts</td><td>3,590 (structured analysis subset)</td></tr>
+            <tr><td>Domains</td><td>Career (1,998) · Immigration (283) · Relationships (1,309)</td></tr>
+            <tr><td>Subreddits</td><td>r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/immigration, r/relationship_advice, r/relationships</td></tr>
+            <tr><td>Engineered features</td><td>urgency_score, reversal, time_to_regret_days, regret_sentence, topic</td></tr>
           </tbody>
         </table>
       </div>
-      <p style="font-size: 0.9rem; color: var(--text-muted);">
-        Data is collected via Reddit's public JSON API. Full collection and processing code is available in the repository.
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        The broader collection pipeline scraped ~21.8k raw posts using listing and search endpoints.
+        After regret filtering, deduplication, and structured feature extraction, the preliminary analysis uses 3,590 confirmed regret posts.
       </p>
     </section>
 
+    <!-- METHODS (shorter) -->
     <section id="methods" class="card">
-      <h2 class="section-title">Methods & Pipeline</h2>
-      <p>Our analysis follows a standard data science workflow:</p>
+      <h2 class="section-title">Methods</h2>
       <ol class="pipeline">
-        <li><strong>Data Collection</strong> — Reddit API scraping of domain subreddits (new/top/hot listings and regret-focused search queries).</li>
-        <li><strong>Regret Filtering</strong> — Pattern-based extraction of posts containing regret language, with exclusion of hypothetical or future-oriented regret.</li>
-        <li><strong>Feature Engineering</strong> — Urgency scores from lexical cues (e.g., "rushed", "pressure", "deadline"); reversal labels from action verbs (e.g., "quit", "divorced"); time-to-regret from temporal expressions.</li>
-        <li><strong>Exploratory Data Analysis</strong> — Distribution of urgency, time to regret, reversal rates by domain; correlation analysis; topic modeling (NMF).</li>
-        <li><strong>Modeling</strong> — Reversal classification (TF-IDF + logistic regression); survival analysis (Kaplan–Meier); Cox regression for time-to-regret.</li>
-        <li><strong>Visualization</strong> — EDA plots, domain comparisons, and interactive dashboards.</li>
+        <li><strong>Collection &amp; Filtering</strong>: Reddit API scraping followed by regex-based regret extraction with exclusion of hypothetical language.</li>
+        <li><strong>Feature Engineering</strong>: Urgency scores (lexical cues: "rushed", "pressure"), reversal labels (action verbs: "quit", "divorced"), and time-to-regret (temporal expressions).</li>
+        <li><strong>Modeling</strong>: TF-IDF + logistic regression for reversal classification; Kaplan-Meier survival curves; Cox proportional-hazards regression.</li>
       </ol>
-      <a href="https://github.com/VeedhiBhanushali/regret-analysis" class="repo-link" target="_blank" rel="noopener">View on GitHub →</a>
+      <a href="https://github.com/VeedhiBhanushali/regret-analysis" class="repo-link" target="_blank" rel="noopener">View Code on GitHub &rarr;</a>
     </section>
 
-    <section id="analytics" class="card">
-      <h2 class="section-title">Analytics</h2>
-      <p>Key exploratory visualizations from the structured regret dataset:</p>
-      <div class="analytics-grid">
-        <figure class="analytics-item">
-          <img src="plots/1_urgency_score_hist.png" alt="Distribution of Urgency Score">
-          <figcaption>Distribution of Urgency Score</figcaption>
-        </figure>
-        <figure class="analytics-item">
-          <img src="plots/3_posts_by_domain.png" alt="Regret Posts by Domain">
-          <figcaption>Regret Posts by Domain</figcaption>
-        </figure>
-        <figure class="analytics-item">
-          <img src="plots/4_reversal_rate_by_domain.png" alt="Reversal Rate by Domain">
-          <figcaption>Reversal Rate by Domain</figcaption>
-        </figure>
-        <figure class="analytics-item">
-          <img src="plots/8_urgency_by_domain.png" alt="Urgency Score by Domain">
-          <figcaption>Urgency Score by Domain</figcaption>
-        </figure>
-        <figure class="analytics-item">
-          <img src="plots/9_time_availability_by_domain.png" alt="Time-to-Regret Availability by Domain">
-          <figcaption>Time-to-Regret Availability by Domain</figcaption>
-        </figure>
-        <figure class="analytics-item">
-          <img src="plots/7_correlation_heatmap.png" alt="Correlation Heatmap">
-          <figcaption>Correlation Heatmap</figcaption>
-        </figure>
+    <!-- ==================== PRELIMINARY RESULTS ==================== -->
+    <section id="results">
+      <h2 class="section-title" style="margin-bottom: 1.5rem;">Preliminary Results</h2>
+
+      <!-- HYPOTHESIS 1 -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 1</div>
+        <h3>Reversal rates differ significantly across life domains</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>Do regret narratives lead to decision reversal at different rates across career, immigration, and relationships?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Relationships show the highest reversal rate (39.5%), followed closely by career (38.5%). Immigration is notably lower at 27.6%, despite strong regret language.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p">Immigration combines strong regret expression with the lowest reversal rate, a pattern consistent with barriers to undoing a move or visa path.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">38.5%</div>
+            <div class="metric-label">Career reversal</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">27.6%</div>
+            <div class="metric-label">Immigration reversal</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">39.5%</div>
+            <div class="metric-label">Relationships reversal</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-pair">
+          <div class="figure-block">
+            <img src="plots/4_reversal_rate_by_domain.png" alt="Reversal Rate by Domain">
+            <div class="figure-caption">Reversal Rate by Domain</div>
+          </div>
+          <div class="figure-block">
+            <img src="plots/3_posts_by_domain.png" alt="Regret Posts by Domain">
+            <div class="figure-caption">Regret Posts by Domain (n = 3,590)</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Implication</h4>
+        <div class="figure-interpretation">
+          Immigration posters express strong regret but reverse less often. This reflects structural constraints (visa dependencies, legal processes, and financial costs) that make reversal difficult regardless of emotional intensity. Career and relationship decisions, by contrast, offer more agency to act on regret.
+          <p style="margin: 0.75rem 0 0;"><strong>This suggests that structural constraints (e.g., immigration systems) limit the ability to act on regret, even when emotional intensity is high.</strong></p>
+        </div>
+
+        <div class="finding-row" style="margin-top: 1rem;">
+          <span class="finding-label">Model</span>
+          <span>A TF-IDF + logistic regression classifier trained on regret sentence text achieves <strong>ROC AUC &asymp; 0.64</strong> for predicting reversal, indicating that language alone captures some signal but is not sufficient.</span>
+        </div>
+
+        <h4 class="skim-heading">Next step</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Test whether immigration constraints (visa type, country) suppress reversal despite strong regret</li>
+            <li>Incorporate richer NLP features (sentence embeddings, sentiment) to improve classification</li>
+            <li>Expand the immigration sample (n = 283) to improve statistical power in that domain</li>
+          </ul>
+        </div>
       </div>
+
+      <!-- HYPOTHESIS 2 -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 2</div>
+        <h3>Urgency language is weakly associated with reversal</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>Does urgency language (e.g., "rushed", "pressure", "impulsive") predict whether regret leads to reversal?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Urgency scores are low across all domains (mean &asymp; 0.17) and only weakly correlated with reversal (<em>r</em> &asymp; 0.11). Most regret posts are reflective rather than impulsive.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p">Simple urgency counts do not meaningfully separate reversers from non-reversers; regret language is usually calm and backward-looking.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">0.17</div>
+            <div class="metric-label">Mean urgency score</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value"><em>r</em> &asymp; 0.11</div>
+            <div class="metric-label">Urgency-reversal corr.</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.23</div>
+            <div class="metric-label">Relationships (highest)</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-pair">
+          <div class="figure-block">
+            <img src="plots/1_urgency_score_hist.png" alt="Distribution of Urgency Score">
+            <div class="figure-caption">Distribution of Urgency Score</div>
+          </div>
+          <div class="figure-block">
+            <img src="plots/7_correlation_heatmap.png" alt="Correlation Heatmap">
+            <div class="figure-caption">Correlation Heatmap</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Implication</h4>
+        <div class="figure-interpretation">
+          The overwhelming majority of posts have an urgency score of 0, meaning regret is typically expressed without time-pressure language. When urgency words do appear, they show only a weak positive correlation with reversal. This indicates that regret is usually a retrospective emotion: people look back calmly rather than posting in the heat of the moment.
+        </div>
+
+        <div class="figure-block">
+          <img src="plots/8_urgency_by_domain.png" alt="Urgency Score by Domain" style="max-width: 480px;">
+          <div class="figure-caption">Urgency Score by Domain (boxplot)</div>
+        </div>
+
+        <div class="figure-interpretation">
+          Relationships posts show slightly higher urgency than career or immigration, reflecting the emotional intensity of interpersonal decisions. Even in this domain the median urgency score remains 0.
+        </div>
+
+        <h4 class="skim-heading">Next step</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Replace simple keyword counting with sentiment intensity or emotion detection models</li>
+            <li>Test whether urgency predicts <em>speed</em> of regret rather than reversal itself</li>
+            <li>Investigate whether impulsive language differs by topic cluster within each domain</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HYPOTHESIS 3 -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 3</div>
+        <h3>Regret emerges long after the decision, especially in career and immigration</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>How quickly do people report regret after major life decisions, and does this differ by domain?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Overall median time-to-regret is approximately <strong>730 days (~2 years)</strong>. Regret in relationships surfaces earlier (median 270 days), while regret in career and immigration typically appears after about two years. The distribution is strongly right-skewed.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p">When people mention timing, regret often appears on a multi-year horizon in career and immigration, and sooner in relationships. Temporal context matters for how regret shows up in text.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">730 d</div>
+            <div class="metric-label">Career median</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">730 d</div>
+            <div class="metric-label">Immigration median</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">270 d</div>
+            <div class="metric-label">Relationships median</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-pair">
+          <div class="figure-block">
+            <img src="plots/2_time_to_regret_hist.png" alt="Distribution of Time to Regret (Days)">
+            <div class="figure-caption">Distribution of Time to Regret (Days)</div>
+          </div>
+          <div class="figure-block">
+            <img src="plots/6_time_to_regret_by_domain.png" alt="Time to Regret by Domain">
+            <div class="figure-caption">Time to Regret by Domain (boxplot)</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Implication</h4>
+        <div class="figure-interpretation">
+          Relationship regret appears substantially earlier (median ~9 months vs ~2 years for career/immigration). This reflects faster feedback loops in interpersonal relationships, whereas career and immigration decisions involve longer-term structural consequences that only become apparent over years. Only 10.7% of posts contain extractable temporal information, so these estimates are based on a subset of 384 posts.
+        </div>
+
+        <div class="figure-block">
+          <img src="plots/9_time_availability_by_domain.png" alt="Time-to-Regret Availability by Domain" style="max-width: 480px;">
+          <div class="figure-caption">Fraction of posts with extractable time-to-regret by domain</div>
+        </div>
+
+        <div class="figure-interpretation">
+          Immigration posts are most likely to mention a specific time frame (14.5%), while career and relationships hover around 10%. This reflects the milestone-driven nature of immigration (visa dates, filing years) compared to the more open-ended timelines in other domains.
+        </div>
+
+        <div class="finding-row" style="margin-top: 1rem;">
+          <span class="finding-label">Model</span>
+          <span>An early-vs-late regret classifier (TF-IDF + logistic regression, median split) achieves <strong>ROC AUC &asymp; 0.77</strong>, indicating that the language of early regret is distinguishable from late regret. Cox regression for time-to-regret was weak / non-significant, likely due to limited sample size.</span>
+        </div>
+
+        <h4 class="skim-heading">Next step</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Improve temporal extraction with NLP-based date parsing to increase the 10.7% coverage</li>
+            <li>Compare linguistic features of early vs. late regret to identify predictive markers</li>
+            <li>Re-run Cox regression with expanded data and additional covariates (topic, post length)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="synthesis-card" id="synthesis">
+        Together, these results suggest that <strong>domain-level constraints and temporal dynamics</strong> are more informative predictors of reversal than simple linguistic urgency.
+      </div>
+
     </section>
   </main>
 
   <footer class="footer">
-    © 2026 Regret Analysis. <a href="https://github.com/VeedhiBhanushali/regret-analysis">GitHub Repository</a>
+    &copy; 2026 Regret Analysis &middot; <a href="https://github.com/VeedhiBhanushali/regret-analysis">GitHub Repository</a>
   </footer>
 
   <script>
     document.documentElement.style.scrollBehavior = 'smooth';
 
-    document.querySelectorAll('.nav a').forEach(a => {
-      a.addEventListener('click', (e) => {
-        document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
-        a.classList.add('active');
+    const navLinks = document.querySelectorAll('.nav a');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateActive() {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
       });
-    });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+
+    window.addEventListener('scroll', updateActive);
+    updateActive();
   </script>
 </body>
 </html>
