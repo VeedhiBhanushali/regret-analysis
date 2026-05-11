@@ -1,16 +1,16 @@
 {
   "chi_square_emotion_by_reversal": {
-    "chi2": 20.4424,
-    "p_value": 0.002309297,
+    "chi2": 19.6217,
+    "p_value": 0.003232916,
     "dof": 6,
-    "cramers_v": 0.0755,
+    "cramers_v": 0.0738,
     "significant": true
   },
   "chi_square_emotion_by_domain": {
-    "chi2": 85.8397,
-    "p_value": 3.137807e-13,
+    "chi2": 86.8044,
+    "p_value": 2.045557e-13,
     "dof": 12,
-    "cramers_v": 0.1093,
+    "cramers_v": 0.1097,
     "significant": true
   },
   "emotion_distribution_by_domain": {
@@ -24,13 +24,13 @@
       "disgust": 0.0035
     },
     "immigration": {
-      "sadness": 0.583,
-      "neutral": 0.1272,
-      "surprise": 0.0989,
-      "anger": 0.0883,
-      "joy": 0.053,
-      "fear": 0.0459,
-      "disgust": 0.0035
+      "sadness": 0.5791,
+      "neutral": 0.1279,
+      "surprise": 0.0976,
+      "anger": 0.0909,
+      "joy": 0.0572,
+      "fear": 0.0438,
+      "disgust": 0.0034
     },
     "relationships": {
       "sadness": 0.5982,
@@ -43,12 +43,12 @@
     }
   },
   "reversal_rate_by_emotion": {
-    "anger": 0.387,
+    "anger": 0.3875,
     "disgust": 0.3,
     "fear": 0.3421,
-    "joy": 0.3641,
-    "neutral": 0.2627,
-    "sadness": 0.3988,
-    "surprise": 0.3646
+    "joy": 0.3706,
+    "neutral": 0.2646,
+    "sadness": 0.398,
+    "surprise": 0.3679
   }
 }

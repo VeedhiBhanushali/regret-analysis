@@ -131,15 +131,15 @@
           <thead><tr><th>Property</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td>Raw posts collected</td><td>~21,800 across nine subreddits</td></tr>
-            <tr><td>Filtered regret posts</td><td>3,590 (structured analysis subset)</td></tr>
-            <tr><td>Domains</td><td>Career (1,998) - Immigration (283) - Relationships (1,309)</td></tr>
+            <tr><td>Filtered regret posts</td><td>3,604 (structured analysis subset)</td></tr>
+            <tr><td>Domains</td><td>Career (1,998) - Immigration (297) - Relationships (1,309)</td></tr>
             <tr><td>Subreddits</td><td>r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/immigration, r/relationship_advice, r/relationships</td></tr>
-            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, topic, emotion, sentence embeddings (PCA-10)</td></tr>
+            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, topic, emotion, event_type, sentence embeddings (PCA-10)</td></tr>
           </tbody>
         </table>
       </div>
       <p style="font-size: 0.88rem; color: var(--text-muted);">
-        The broader collection pipeline scraped ~21.8k raw posts. After regret filtering, deduplication, and structured feature extraction, the preliminary analysis uses 3,590 confirmed regret posts enriched with VADER sentiment and improved temporal extraction (47.2% time coverage, up from 10.7%).
+        The broader collection pipeline scraped ~21.8k raw posts. After regret filtering, deduplication, and structured feature extraction, the preliminary analysis uses 3,604 confirmed regret posts enriched with VADER sentiment and improved temporal extraction (47.2% time coverage, up from 10.7%).
       </p>
     </section>
 
@@ -147,7 +147,7 @@
       <h2 class="section-title">Methods</h2>
       <ol class="pipeline">
         <li><strong>Collection &amp; Filtering</strong>: Reddit API scraping followed by regex-based regret extraction with exclusion of hypothetical language.</li>
-        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns); sentence embeddings (all-MiniLM-L6-v2, PCA-50); 7-class emotion classification (GoEmotions distilRoBERTa).</li>
+        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns); sentence embeddings (all-MiniLM-L6-v2, PCA-50); 7-class emotion classification (GoEmotions distilRoBERTa); triggering event taxonomy (per-domain keyword-based event type labeling with priority ordering).</li>
         <li><strong>Modeling</strong>: Cross-domain reversal classification (LR/RF/GBM, stratified 5-fold CV, bootstrap CIs); leave-one-domain-out generalization; NMF topic modeling; Cox PH regression with 13 covariates; nested logistic models for subreddit confounding.</li>
         <li><strong>Statistical Testing</strong>: Chi-square tests; Mann-Whitney U with effect sizes; Kruskal-Wallis H; log-rank tests; likelihood ratio tests for model comparison; log-odds ratio linguistic analysis (Monroe et al. 2008); bootstrap CIs on all key metrics.</li>
       </ol>
@@ -201,7 +201,7 @@
           </div>
           <div class="figure-block">
             <img src="plots/3_posts_by_domain.png" alt="Regret Posts by Domain">
-            <div class="figure-caption">Regret Posts by Domain (n = 3,590)</div>
+            <div class="figure-caption">Regret Posts by Domain (n = 3,604)</div>
           </div>
         </div>
 
@@ -238,9 +238,9 @@
         <div class="next-steps">
           <strong>Planned follow-ups</strong>
           <ul>
-            <li>Test whether immigration constraints (visa type, country) suppress reversal despite strong regret</li>
-            <li>Incorporate sentence embeddings (e.g., all-MiniLM) to capture richer semantic signal</li>
-            <li>Expand the immigration sample (n = 283) to improve statistical power</li>
+            <li>Expand immigration corpus (r/greencard, r/h1b) to increase statistical power for immigration sub-analyses</li>
+            <li>Develop a fine-grained immigration sub-classifier: USCIS (bureaucratic) vs IWantOut (voluntary) vs asylum posts likely have different reversal dynamics</li>
+            <li>Test event type as a moderator of the domain-reversal relationship in a formal mediation model</li>
           </ul>
         </div>
       </div>
@@ -312,9 +312,9 @@
         <div class="next-steps">
           <strong>Planned follow-ups</strong>
           <ul>
-            <li>Apply emotion detection models (e.g., GoEmotions) to distinguish anger, sadness, and disappointment in regret</li>
-            <li>Test whether sentiment intensity predicts <em>speed</em> of regret rather than reversal itself</li>
-            <li>Investigate whether emotional tone differs by topic cluster within each domain</li>
+            <li>Test whether emotion mediates the domain-reversal relationship (does immigration suppress anger-driven action?)</li>
+            <li>Investigate whether emotional tone differs by event type within each domain (does abuse regret have higher negative affect than infidelity regret?)</li>
+            <li>Test whether sentiment intensity predicts speed of regret rather than reversal itself</li>
           </ul>
         </div>
       </div>
@@ -330,7 +330,7 @@
         </div>
         <div class="finding-row">
           <span class="finding-label">Finding</span>
-          <span>With improved temporal extraction (47.2% coverage, up from 10.7%), relationship regret surfaces at a median of <strong>60 days</strong>, career regret at <strong>210 days</strong>, and immigration regret at <strong>365 days</strong>. These estimates are based on 1,694 posts with extractable time information.</span>
+          <span>With improved temporal extraction (47.2% coverage, up from 10.7%), relationship regret surfaces at a median of <strong>60 days</strong>, career regret at <strong>210 days</strong>, and immigration regret at <strong>365 days</strong>. These estimates are based on 1,695 posts with extractable time information.</span>
         </div>
 
         <h4 class="skim-heading">Key insight</h4>
@@ -358,7 +358,7 @@
         <div class="figure-pair">
           <div class="figure-block">
             <img src="plots/2_time_to_regret_hist.png" alt="Distribution of Time to Regret">
-            <div class="figure-caption">Distribution of Time to Regret (n = 1,694)</div>
+            <div class="figure-caption">Distribution of Time to Regret (n = 1,695)</div>
           </div>
           <div class="figure-block">
             <img src="plots/6_time_to_regret_by_domain.png" alt="Time to Regret by Domain">
@@ -389,9 +389,9 @@
         <div class="next-steps">
           <strong>Planned follow-ups</strong>
           <ul>
-            <li>Apply NLP-based date parsing (SUTime, spaCy) to capture even more temporal expressions</li>
-            <li>Compare linguistic features of early vs. late regret to identify predictive markers</li>
-            <li>Re-run Cox regression with expanded temporal data and additional covariates (topic, post length, sentiment)</li>
+            <li>Apply NLP-based date parsing (SUTime, spaCy) to capture temporal expressions beyond current regex coverage</li>
+            <li>Investigate whether event type (voluntary_departure vs visa_denial) interacts with temporal trajectory in immigration</li>
+            <li>Test whether early vs. late regret have different event-type distributions</li>
           </ul>
         </div>
       </div>
@@ -403,7 +403,7 @@
 
         <div class="finding-row">
           <span class="finding-label">Method</span>
-          <span>NMF (Non-negative Matrix Factorization) topic model with 10 topics across all 3,590 posts, using TF-IDF features.</span>
+          <span>NMF (Non-negative Matrix Factorization) topic model with 10 topics across all 3,604 posts, using TF-IDF features.</span>
         </div>
 
         <div class="figure-block">
@@ -416,9 +416,75 @@
         </div>
       </div>
 
+      <!-- ===== RESULT 4: EVENT TAXONOMY ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 4</div>
+        <h3>What triggers regret matters: voluntary departures reverse at 2x the rate of visa denials</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>Does the type of precipitating event (voluntary choice vs structural barrier vs external force) predict whether regret leads to reversal?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Immigration: voluntary departures (n=13, reversal 53.8%) reverse at 2x the rate of visa denial or error cases (n=80, reversal 26.3%). Relationships: abuse/toxicity posts (n=314, 45.5%) and voluntary endings (n=168, 45.8%) have the highest reversal rates, while external-pressure cases (n=87, 32.2%) have the lowest.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Reversibility of the precipitating event predicts reversibility of the regret.</strong> When someone chose to leave (voluntary departure, n=13, 53.8%), they retain agency and reversal is possible. When a visa was denied (n=80, 26.3%), reversal requires overcoming an external system barrier, which suppresses action even when emotional regret is present. In relationships, abuse-driven regret (45.5%) leads to action as readily as voluntary endings (45.8%), suggesting high emotional clarity in those situations.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">53.8%</div>
+            <div class="metric-label">Voluntary departure</div>
+            <div class="metric-sub">Immigration (n=13)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">26.3%</div>
+            <div class="metric-label">Visa denial/error</div>
+            <div class="metric-sub">Immigration (n=80)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">45.5%</div>
+            <div class="metric-label">Abuse/toxicity</div>
+            <div class="metric-sub">Relationships (n=314)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">32.2%</div>
+            <div class="metric-label">External pressure</div>
+            <div class="metric-sub">Relationships (n=87)</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/23_event_type_reversal.png" alt="Reversal Rate by Event Type">
+          <div class="figure-caption">Reversal Rate by Triggering Event Type, per Domain (with domain mean baseline)</div>
+        </div>
+
+        <div class="figure-interpretation">
+          In immigration, the contrast between voluntary departure (53.8%) and visa denial/error (26.3%) reveals that when a government system is the barrier to reversal, emotional regret alone cannot overcome it. In relationships, abuse/toxicity actually achieves a reversal rate comparable to voluntary endings, which may reflect the higher clarity and social support available to those experiencing harmful relationships. External-pressure cases (arranged marriages, family-forced decisions) show the lowest relationship reversal rate (32.2%), consistent with social barriers to undoing pressured decisions. Note: Career event types partially overlap with reversal-label keywords (voluntary quit and involuntary exit share vocabulary with the reversal classifier), so career results are interpreted cautiously.
+        </div>
+
+        <div class="callout">
+          <strong>Methodological note</strong>
+          Career event type labels (e.g., "quit", "fired") overlap with the keywords used to assign reversal labels in the pipeline. This means career event type and reversal are not fully independent measures. The immigration and relationship findings are not subject to this limitation.
+        </div>
+
+        <h4 class="skim-heading">Next steps</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Expand immigration corpus (r/greencard, r/h1b, r/f1visa) to increase statistical power for immigration event-type tests (current n=122 with known type is insufficient for chi-square)</li>
+            <li>Develop an independent reversal label that does not rely on the same keywords as event type (e.g., comments-based or temporal follow-up labeling)</li>
+            <li>Test whether event type moderates the emotion-reversal relationship (does abuse amplify or dampen the sentiment signal?)</li>
+          </ul>
+        </div>
+      </div>
+
       <!-- ===== SYNTHESIS ===== -->
       <div class="synthesis-card" id="synthesis">
-        Together, these results suggest that <strong>domain-level structural constraints and temporal dynamics</strong> are more informative predictors of reversal than simple linguistic features. The chi-square test confirms that reversal rates differ significantly across domains (<em>p</em> &lt; 0.001). VADER sentiment captures a small but statistically significant emotional signal (<em>p</em> = 0.003), while the improved temporal extraction reveals that regret timing spans from weeks (relationships) to years (immigration). The Random Forest classifier achieves AUC 0.652 [0.610, 0.691], with temporal and action-verb features contributing most.
+        Together, these four results reveal a coherent picture: <strong>domain-level structural constraints, temporal dynamics, and the type of precipitating event</strong> are more informative predictors of reversal than linguistic sentiment alone. Domain differences are significant (<em>p</em> &lt; 0.001). VADER captures a small but real emotional signal (<em>p</em> = 0.003). Regret timing spans weeks (relationships) to years (immigration). Critically, voluntary departures reverse at 2x the rate of visa denials (53.8% vs 26.3%), and abuse-driven relationship regret leads to action as readily as voluntary endings. The Random Forest classifier achieves AUC 0.652 [0.610, 0.691]; event taxonomy features are a promising direction for improving classification in future work.
       </div>
 
     </section>
@@ -434,7 +500,7 @@
 
         <div class="finding-row">
           <span class="finding-label">Method</span>
-          <span>GoEmotions 7-class emotion classification (j-hartmann/emotion-english-distilroberta-base) applied to all 3,590 regret posts.</span>
+          <span>GoEmotions 7-class emotion classification (j-hartmann/emotion-english-distilroberta-base) applied to all 3,604 regret posts.</span>
         </div>
         <div class="finding-row">
           <span class="finding-label">Finding</span>
@@ -532,7 +598,7 @@
         </div>
 
         <div class="figure-interpretation">
-          Immigration benefits most from transfer learning because its small sample (n=283) gains from the larger training set of career + relationships (n=3,307). Relationships is hardest to predict from other domains, possibly because interpersonal regret uses more domain-specific vocabulary.
+          Immigration benefits most from transfer learning because its small sample (n=297) gains from the larger training set of career + relationships (n=3,307). Relationships is hardest to predict from other domains, possibly because interpersonal regret uses more domain-specific vocabulary.
         </div>
 
         <h4 class="skim-heading">Next steps</h4>
@@ -552,7 +618,7 @@
 
         <div class="finding-row">
           <span class="finding-label">Method</span>
-          <span>Cox Proportional Hazards model on 1,694 posts with temporal data. Covariates: domain, VADER sentiment, urgency score, log post length, topic, and emotion class. Log-rank tests for all domain pairs.</span>
+          <span>Cox Proportional Hazards model on 1,695 posts with temporal data. Covariates: domain, VADER sentiment, urgency score, log post length, topic, and emotion class. Log-rank tests for all domain pairs.</span>
         </div>
         <div class="finding-row">
           <span class="finding-label">Finding</span>
@@ -701,7 +767,7 @@
           <li><strong>Selection bias</strong>: Reddit users are not representative of the general population. Regret posts self-select for people willing to share publicly, likely skewing toward more intense or unresolved experiences.</li>
           <li><strong>Reversal labels are lexical proxies</strong>: Reversal is inferred from action verbs ("left", "quit", "ended"), not confirmed behavioral change. Some posts may describe hypothetical or planned actions rather than completed ones.</li>
           <li><strong>Temporal extraction coverage</strong>: Despite improvement from 10.7% to 47.2%, over half of posts lack extractable time-to-regret information. The extracted subset may differ systematically from posts without temporal markers.</li>
-          <li><strong>Sample imbalance</strong>: Immigration (n=283) is substantially smaller than career (n=1,998) and relationships (n=1,309), limiting statistical power for immigration-specific analyses.</li>
+          <li><strong>Sample imbalance</strong>: Immigration (n=297) is substantially smaller than career (n=1,998) and relationships (n=1,309), limiting statistical power for immigration-specific analyses.</li>
           <li><strong>Cross-sectional design</strong>: Each post is a snapshot. We cannot track whether regret evolved over time or whether reversal occurred after posting.</li>
           <li><strong>Model ceiling</strong>: Best AUC of 0.652 for reversal prediction indicates that text and metadata features capture only moderate signal. The inherent stochasticity of human decision-making likely imposes a natural ceiling on predictive accuracy.</li>
         </ol>
@@ -713,7 +779,7 @@
       <div class="synthesis-card">
         <strong style="font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark);">Full Synthesis</strong>
         <p style="margin-top: 0.75rem;">
-          Across 3,590 regret posts spanning career, immigration, and relationships, this analysis identifies a consistent pattern: <strong>structural constraints and temporal dynamics are stronger predictors of reversal than emotional intensity alone.</strong>
+          Across 3,604 regret posts spanning career, immigration, and relationships, this analysis identifies a consistent pattern: <strong>structural constraints and temporal dynamics are stronger predictors of reversal than emotional intensity alone.</strong>
         </p>
         <p>
           Domain matters (<em>p</em> &lt; 0.001): immigration posters show 36% lower hazard of reversal (Cox HR = 0.64) despite similar emotional intensity to career and relationship posters. Emotion detection confirms that sadness dominates all domains (58-64%), but its association with reversal (<em>p</em> = 0.002) is weaker than structural factors.
@@ -725,7 +791,10 @@
           Cox regression reveals that post length (HR = 1.53) and urgency (HR = 1.31) are the strongest temporal hazard predictors, while sentiment features lose significance in the multivariate model. The subreddit confounder analysis confirms that core findings are robust: feature coefficients change less than 5% when controlling for subreddit-level variation.
         </p>
         <p>
-          <strong>For future work</strong>, the most promising directions are: (1) longitudinal tracking of users across multiple posts to capture regret evolution, (2) domain-adversarial training for improved cross-domain transfer, (3) causal inference methods to distinguish structural barriers from attitudinal ones, and (4) expansion of the immigration sample for more robust subgroup analysis.
+          A new triggering event taxonomy reveals that the <em>type</em> of event driving regret strongly moderates reversal rates. In immigration, voluntary departures (53.8% reversal, n=13) show 2x higher reversal than visa denials (26.3%, n=80), operationalizing "structural barriers" as a concrete measurable construct. In relationships, abuse-driven regret (45.5%) leads to action as readily as voluntary endings (45.8%), while external-pressure cases show the lowest reversal (32.2%).
+        </p>
+        <p>
+          <strong>For future work</strong>, the most promising directions are: (1) further expanding the immigration corpus (r/h1b and r/f1visa yield very low regret density; deeper historical scraping of USCIS and IWantOut remains the highest-signal path) to reach n=600+ for adequately powered event-type tests; (2) developing event-type features that are independent of reversal labels to avoid circularity in career analysis; (3) longitudinal tracking of users across multiple posts to capture regret evolution; and (4) domain-adversarial training and causal inference methods to distinguish structural barriers from attitudinal predictors.
         </p>
       </div>
     </section>

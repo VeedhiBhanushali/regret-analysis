@@ -150,13 +150,24 @@ def main():
     rows = []
 
     for kind, url_template in ENDPOINTS:
-        bucket_rows = collect_endpoint(kind, url_template)
-        print(f"{kind}: collected {len(bucket_rows)}")
-        rows.extend(bucket_rows)
+        try:
+            bucket_rows = collect_endpoint(kind, url_template)
+            print(f"{kind}: collected {len(bucket_rows)}")
+            rows.extend(bucket_rows)
+        except Exception as e:
+            print(f"{kind}: failed ({e}) — saving partial data collected so far")
+            break
 
-    search_rows = collect_search()
-    print(f"search: collected {len(search_rows)}")
-    rows.extend(search_rows)
+    try:
+        search_rows = collect_search()
+        print(f"search: collected {len(search_rows)}")
+        rows.extend(search_rows)
+    except Exception as e:
+        print(f"search: failed ({e}) — saving without search results")
+
+    if not rows:
+        print("No data collected.")
+        return
 
     # Deduplicate globally by id
     df = pd.DataFrame(rows).drop_duplicates(subset=["id"]).reset_index(drop=True)

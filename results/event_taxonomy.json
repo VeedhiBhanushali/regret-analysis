@@ -1,0 +1,130 @@
+{
+  "event_type_by_domain": {
+    "career": {
+      "counteroffer_or_switch": {
+        "n": 16,
+        "reversal_rate": 0.8125,
+        "ci_lower": 0.625,
+        "ci_upper": 1.0
+      },
+      "involuntary_exit": {
+        "n": 236,
+        "reversal_rate": 0.8051,
+        "ci_lower": 0.75,
+        "ci_upper": 0.8559
+      },
+      "rejected_offer": {
+        "n": 10,
+        "reversal_rate": 0.9,
+        "ci_lower": 0.7,
+        "ci_upper": 1.0
+      },
+      "unknown": {
+        "n": 1405,
+        "reversal_rate": 0.1843,
+        "ci_lower": 0.1644,
+        "ci_upper": 0.205
+      },
+      "voluntary_quit": {
+        "n": 331,
+        "reversal_rate": 0.9033,
+        "ci_lower": 0.8701,
+        "ci_upper": 0.9335
+      },
+      "_chi_square_known": {
+        "chi2": 11.6089,
+        "p_value": 0.00885,
+        "dof": 3,
+        "n_known": 593
+      }
+    },
+    "immigration": {
+      "application_trapped": {
+        "n": 15,
+        "reversal_rate": 0.3333,
+        "ci_lower": 0.1333,
+        "ci_upper": 0.6
+      },
+      "sponsor_or_job_loss": {
+        "n": 2,
+        "reversal_rate": 0.5,
+        "ci_lower": null,
+        "ci_upper": null
+      },
+      "status_or_removal": {
+        "n": 19,
+        "reversal_rate": 0.3158,
+        "ci_lower": 0.1053,
+        "ci_upper": 0.5263
+      },
+      "unknown": {
+        "n": 168,
+        "reversal_rate": 0.2619,
+        "ci_lower": 0.1964,
+        "ci_upper": 0.3274
+      },
+      "visa_denial_or_error": {
+        "n": 80,
+        "reversal_rate": 0.2625,
+        "ci_lower": 0.175,
+        "ci_upper": 0.3625
+      },
+      "voluntary_departure": {
+        "n": 13,
+        "reversal_rate": 0.5385,
+        "ci_lower": 0.3077,
+        "ci_upper": 0.7692
+      },
+      "_chi_square_known": {
+        "chi2": 4.3941,
+        "p_value": 0.355286,
+        "dof": 4,
+        "n_known": 129
+      }
+    },
+    "relationships": {
+      "abuse_or_toxicity": {
+        "n": 314,
+        "reversal_rate": 0.4554,
+        "ci_lower": 0.3981,
+        "ci_upper": 0.5096
+      },
+      "conflict": {
+        "n": 69,
+        "reversal_rate": 0.4348,
+        "ci_lower": 0.3188,
+        "ci_upper": 0.5507
+      },
+      "external_pressure": {
+        "n": 87,
+        "reversal_rate": 0.3218,
+        "ci_lower": 0.2299,
+        "ci_upper": 0.4138
+      },
+      "infidelity": {
+        "n": 190,
+        "reversal_rate": 0.3895,
+        "ci_lower": 0.3211,
+        "ci_upper": 0.4632
+      },
+      "unknown": {
+        "n": 481,
+        "reversal_rate": 0.343,
+        "ci_lower": 0.2994,
+        "ci_upper": 0.3867
+      },
+      "voluntary_end": {
+        "n": 168,
+        "reversal_rate": 0.4583,
+        "ci_lower": 0.3868,
+        "ci_upper": 0.5357
+      },
+      "_chi_square_known": {
+        "chi2": 6.7489,
+        "p_value": 0.149768,
+        "dof": 4,
+        "n_known": 828
+      }
+    }
+  }
+}

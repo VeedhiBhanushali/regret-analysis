@@ -4,7 +4,8 @@ from pathlib import Path
 CLEAN_DIR = Path("data_clean")
 
 files = list(CLEAN_DIR.glob("*_regret_*.csv"))
-files = [f for f in files if any(x in f.name for x in ["immigration", "IWantOut", "USCIS", "visa"])]
+IMMIGRATION_KEYWORDS = ["immigration", "IWantOut", "USCIS", "visa", "greencard", "h1b", "f1visa"]
+files = [f for f in files if any(x.lower() in f.name.lower() for x in IMMIGRATION_KEYWORDS)]
 
 dfs = []
 for f in files:
