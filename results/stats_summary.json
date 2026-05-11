@@ -1,0 +1,70 @@
+{
+  "chi_square_reversal_by_domain": {
+    "chi2": 14.5726,
+    "p_value": 0.000685,
+    "dof": 2,
+    "significant": true
+  },
+  "reversal_rate_by_domain": {
+    "career": {
+      "rate": 0.3854,
+      "ci_lower": 0.3639,
+      "ci_upper": 0.4064,
+      "n": 1998
+    },
+    "immigration": {
+      "rate": 0.2756,
+      "ci_lower": 0.2261,
+      "ci_upper": 0.3286,
+      "n": 283
+    },
+    "relationships": {
+      "rate": 0.395,
+      "ci_lower": 0.3697,
+      "ci_upper": 0.4232,
+      "n": 1309
+    }
+  },
+  "mannwhitney_vader_compound_by_reversal": {
+    "U": 1607139.5,
+    "p_value": 0.003282,
+    "effect_size_r": -0.0583,
+    "significant": true,
+    "mean_reversal_0": -0.085,
+    "mean_reversal_1": -0.1266
+  },
+  "kruskal_vader_by_domain": {
+    "H": 2.8653,
+    "p_value": 0.238675,
+    "significant": false
+  },
+  "mannwhitney_time_by_reversal": {
+    "U": 367975.5,
+    "p_value": 0.238292,
+    "significant": false,
+    "median_reversal_0": 150.0,
+    "median_reversal_1": 90.0,
+    "n_reversal_0": 918,
+    "n_reversal_1": 776
+  },
+  "time_to_regret_by_domain": {
+    "career": {
+      "median_days": 210.0,
+      "ci_lower": 180.0,
+      "ci_upper": 365.0,
+      "n": 783
+    },
+    "immigration": {
+      "median_days": 365.0,
+      "ci_lower": 365.0,
+      "ci_upper": 547.5,
+      "n": 110
+    },
+    "relationships": {
+      "median_days": 60.0,
+      "ci_lower": 60.0,
+      "ci_upper": 90.0,
+      "n": 801
+    }
+  }
+}

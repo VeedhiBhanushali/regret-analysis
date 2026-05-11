@@ -1,0 +1,46 @@
+{
+  "LogisticRegression": {
+    "cv_auc_mean": 0.6568,
+    "cv_auc_std": 0.0168,
+    "test_auc": 0.6411,
+    "ci_95_lower": 0.5978,
+    "ci_95_upper": 0.6805
+  },
+  "RandomForest": {
+    "cv_auc_mean": 0.6754,
+    "cv_auc_std": 0.0239,
+    "test_auc": 0.6517,
+    "ci_95_lower": 0.6098,
+    "ci_95_upper": 0.6914
+  },
+  "GradientBoosting": {
+    "cv_auc_mean": 0.6526,
+    "cv_auc_std": 0.0182,
+    "test_auc": 0.6308,
+    "ci_95_lower": 0.5886,
+    "ci_95_upper": 0.6713
+  },
+  "top_features": {
+    "has_time": 0.051196,
+    "left": 0.034396,
+    "vader_compound": 0.029708,
+    "vader_neg": 0.02736,
+    "regret": 0.024518,
+    "urgency_score": 0.023708,
+    "wish": 0.011437,
+    "messed": 0.009556,
+    "advice": 0.008986,
+    "later": 0.007817,
+    "months": 0.007571,
+    "think": 0.007391,
+    "really": 0.007155,
+    "domain_immigration": 0.00709,
+    "job": 0.006828,
+    "quit": 0.00637,
+    "leaving": 0.006363,
+    "said": 0.006283,
+    "don know": 0.006265,
+    "don": 0.006184
+  },
+  "best_model": "RandomForest"
+}
