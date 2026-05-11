@@ -1,0 +1,141 @@
+{
+  "concordance_index": 0.6246,
+  "n_observations": 1694,
+  "n_events": 776,
+  "hazard_ratios": {
+    "vader_compound": {
+      "hazard_ratio": 0.9929,
+      "coef": -0.0071,
+      "se": 0.1078,
+      "p_value": 0.947197,
+      "ci_lower": 0.8037,
+      "ci_upper": 1.2266,
+      "significant": false
+    },
+    "vader_neg": {
+      "hazard_ratio": 1.6287,
+      "coef": 0.4878,
+      "se": 0.4397,
+      "p_value": 0.267306,
+      "ci_lower": 0.6879,
+      "ci_upper": 3.856,
+      "significant": false
+    },
+    "urgency_score": {
+      "hazard_ratio": 1.3092,
+      "coef": 0.2694,
+      "se": 0.0682,
+      "p_value": 7.7e-05,
+      "ci_lower": 1.1454,
+      "ci_upper": 1.4963,
+      "significant": true
+    },
+    "log_post_length": {
+      "hazard_ratio": 1.5251,
+      "coef": 0.4221,
+      "se": 0.0558,
+      "p_value": 0.0,
+      "ci_lower": 1.3672,
+      "ci_upper": 1.7013,
+      "significant": true
+    },
+    "topic": {
+      "hazard_ratio": 0.9946,
+      "coef": -0.0054,
+      "se": 0.012,
+      "p_value": 0.653079,
+      "ci_lower": 0.9716,
+      "ci_upper": 1.0182,
+      "significant": false
+    },
+    "domain_immigration": {
+      "hazard_ratio": 0.6393,
+      "coef": -0.4473,
+      "se": 0.1677,
+      "p_value": 0.007659,
+      "ci_lower": 0.4602,
+      "ci_upper": 0.8882,
+      "significant": true
+    },
+    "domain_relationships": {
+      "hazard_ratio": 0.9706,
+      "coef": -0.0298,
+      "se": 0.0812,
+      "p_value": 0.7135,
+      "ci_lower": 0.8277,
+      "ci_upper": 1.1381,
+      "significant": false
+    },
+    "emo_disgust": {
+      "hazard_ratio": 1.1868,
+      "coef": 0.1712,
+      "se": 0.5027,
+      "p_value": 0.733412,
+      "ci_lower": 0.443,
+      "ci_upper": 3.1791,
+      "significant": false
+    },
+    "emo_fear": {
+      "hazard_ratio": 1.0716,
+      "coef": 0.0692,
+      "se": 0.185,
+      "p_value": 0.708437,
+      "ci_lower": 0.7457,
+      "ci_upper": 1.5399,
+      "significant": false
+    },
+    "emo_joy": {
+      "hazard_ratio": 1.2574,
+      "coef": 0.2291,
+      "se": 0.1831,
+      "p_value": 0.210931,
+      "ci_lower": 0.8783,
+      "ci_upper": 1.8002,
+      "significant": false
+    },
+    "emo_neutral": {
+      "hazard_ratio": 0.7671,
+      "coef": -0.2651,
+      "se": 0.188,
+      "p_value": 0.158515,
+      "ci_lower": 0.5307,
+      "ci_upper": 1.1089,
+      "significant": false
+    },
+    "emo_sadness": {
+      "hazard_ratio": 1.1078,
+      "coef": 0.1023,
+      "se": 0.1065,
+      "p_value": 0.33663,
+      "ci_lower": 0.8991,
+      "ci_upper": 1.3649,
+      "significant": false
+    },
+    "emo_surprise": {
+      "hazard_ratio": 1.4161,
+      "coef": 0.3479,
+      "se": 0.1821,
+      "p_value": 0.056095,
+      "ci_lower": 0.991,
+      "ci_upper": 2.0235,
+      "significant": false
+    }
+  },
+  "logrank_tests": {
+    "career_vs_immigration": {
+      "test_statistic": 8.4169,
+      "p_value": 0.003717,
+      "significant": true
+    },
+    "career_vs_relationships": {
+      "test_statistic": 11.9897,
+      "p_value": 0.000535,
+      "significant": true
+    },
+    "immigration_vs_relationships": {
+      "test_statistic": 20.2109,
+      "p_value": 7e-06,
+      "significant": true
+    }
+  }
+}

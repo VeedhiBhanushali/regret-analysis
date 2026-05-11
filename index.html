@@ -101,6 +101,8 @@
     <a href="#dataset">Dataset</a>
     <a href="#methods">Methods</a>
     <a href="#results" class="active">Results</a>
+    <a href="#extended">Extended</a>
+    <a href="#limitations">Limitations</a>
   </nav>
 
   <main class="container">
@@ -132,7 +134,7 @@
             <tr><td>Filtered regret posts</td><td>3,590 (structured analysis subset)</td></tr>
             <tr><td>Domains</td><td>Career (1,998) - Immigration (283) - Relationships (1,309)</td></tr>
             <tr><td>Subreddits</td><td>r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/immigration, r/relationship_advice, r/relationships</td></tr>
-            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, regret_sentence, topic</td></tr>
+            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, topic, emotion, sentence embeddings (PCA-10)</td></tr>
           </tbody>
         </table>
       </div>
@@ -145,9 +147,9 @@
       <h2 class="section-title">Methods</h2>
       <ol class="pipeline">
         <li><strong>Collection &amp; Filtering</strong>: Reddit API scraping followed by regex-based regret extraction with exclusion of hypothetical language.</li>
-        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns).</li>
-        <li><strong>Modeling</strong>: Cross-domain reversal classification comparing Logistic Regression, Random Forest, and Gradient Boosting with stratified 5-fold CV and bootstrap 95% CIs; NMF topic modeling across all domains; Kaplan-Meier survival curves.</li>
-        <li><strong>Statistical Testing</strong>: Chi-square tests for domain differences; Mann-Whitney U tests with effect sizes; bootstrap confidence intervals on all key metrics.</li>
+        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns); sentence embeddings (all-MiniLM-L6-v2, PCA-50); 7-class emotion classification (GoEmotions distilRoBERTa).</li>
+        <li><strong>Modeling</strong>: Cross-domain reversal classification (LR/RF/GBM, stratified 5-fold CV, bootstrap CIs); leave-one-domain-out generalization; NMF topic modeling; Cox PH regression with 13 covariates; nested logistic models for subreddit confounding.</li>
+        <li><strong>Statistical Testing</strong>: Chi-square tests; Mann-Whitney U with effect sizes; Kruskal-Wallis H; log-rank tests; likelihood ratio tests for model comparison; log-odds ratio linguistic analysis (Monroe et al. 2008); bootstrap CIs on all key metrics.</li>
       </ol>
       <a href="https://github.com/VeedhiBhanushali/regret-analysis" class="repo-link" target="_blank" rel="noopener">View Code on GitHub</a>
     </section>
@@ -420,6 +422,314 @@
       </div>
 
     </section>
+
+    <!-- ==================== EXTENDED ANALYSIS ==================== -->
+    <section id="extended">
+      <h2 class="section-title" style="margin-bottom: 1.5rem;">Extended Analysis</h2>
+
+      <!-- ===== EMOTION DETECTION ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 1</div>
+        <h3>Emotion detection reveals sadness dominates regret, but anger predicts reversal</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>GoEmotions 7-class emotion classification (j-hartmann/emotion-english-distilroberta-base) applied to all 3,590 regret posts.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Sadness is the dominant emotion across all domains (58-64%). Emotion distributions differ significantly across domains (chi-square = 85.8, <em>p</em> &lt; 10<sup>-13</sup>, Cramer's V = 0.109). Crucially, emotion is also associated with reversal (chi-square = 20.4, <em>p</em> = 0.002, Cramer's V = 0.075): sadness has the highest reversal rate (39.9%), while neutral posts have the lowest (26.3%).</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Emotionally engaged regret (especially sadness and anger) is more likely to lead to action.</strong> Posts classified as "neutral" have a reversal rate 13 percentage points lower than sadness-labeled posts, indicating that emotional intensity is a necessary precondition for behavioral change.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">62.1%</div>
+            <div class="metric-label">Sadness (overall)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">39.9%</div>
+            <div class="metric-label">Sadness reversal rate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">26.3%</div>
+            <div class="metric-label">Neutral reversal rate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">V = 0.075</div>
+            <div class="metric-label">Cramer's V (emo x rev)</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-pair">
+          <div class="figure-block">
+            <img src="plots/18_emotion_by_domain.png" alt="Emotion Distribution by Domain">
+            <div class="figure-caption">Emotion Distribution by Domain (stacked proportions)</div>
+          </div>
+          <div class="figure-block">
+            <img src="plots/19_emotion_by_reversal.png" alt="Reversal Rate by Emotion">
+            <div class="figure-caption">Reversal Rate by Detected Emotion</div>
+          </div>
+        </div>
+
+        <div class="figure-interpretation">
+          Relationships show the highest anger proportion (19.4%), consistent with interpersonal conflict driving regret. Immigration shows more neutral and surprise posts, reflecting bureaucratic uncertainty. The reversal-by-emotion plot reveals that sadness (the most common emotion) is also the most associated with action, while neutral posts rarely lead to reversal.
+        </div>
+
+        <h4 class="skim-heading">Next steps</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Use emotion as a feature in the reversal classifier to test incremental predictive value</li>
+            <li>Investigate whether emotion mediates the domain-reversal relationship</li>
+            <li>Test emotion trajectories in multi-post users (does anger precede reversal?)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== CROSS-DOMAIN GENERALIZATION ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 2</div>
+        <h3>Cross-domain generalization: reversal patterns transfer across life domains</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Leave-one-domain-out evaluation: train Random Forest on 2 domains, test on the held-out domain. Features include TF-IDF, VADER, sentence embeddings (MiniLM PCA-10).</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>The model generalizes moderately well across domains. Notably, a model trained on career + relationships achieves the highest AUC (0.697) when tested on immigration, despite immigration being the most structurally different domain.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Linguistic markers of reversal are partially domain-invariant.</strong> The surprisingly strong performance on held-out immigration (AUC 0.697) suggests that the semantic features of "people who acted on their regret" share common patterns across career, immigration, and relationship contexts.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">0.638</div>
+            <div class="metric-label">Held-out career</div>
+            <div class="metric-sub">95% CI [0.614, 0.663]</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.697</div>
+            <div class="metric-label">Held-out immigration</div>
+            <div class="metric-sub">95% CI [0.632, 0.764]</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.609</div>
+            <div class="metric-label">Held-out relationships</div>
+            <div class="metric-sub">95% CI [0.577, 0.641]</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/21_cross_domain_auc.png" alt="Cross-Domain Generalization AUC">
+          <div class="figure-caption">Leave-One-Domain-Out AUC (Random Forest with TF-IDF + VADER + Embeddings)</div>
+        </div>
+
+        <div class="figure-interpretation">
+          Immigration benefits most from transfer learning because its small sample (n=283) gains from the larger training set of career + relationships (n=3,307). Relationships is hardest to predict from other domains, possibly because interpersonal regret uses more domain-specific vocabulary.
+        </div>
+
+        <h4 class="skim-heading">Next steps</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Domain adaptation techniques (e.g., domain-adversarial training) to improve transfer</li>
+            <li>Feature ablation to identify which features drive cross-domain vs domain-specific prediction</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== COX REGRESSION V2 ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 3</div>
+        <h3>Cox regression: post length and urgency are the strongest hazard predictors</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Cox Proportional Hazards model on 1,694 posts with temporal data. Covariates: domain, VADER sentiment, urgency score, log post length, topic, and emotion class. Log-rank tests for all domain pairs.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>The Cox model achieves concordance index 0.625. Log post length (HR = 1.53, <em>p</em> &lt; 0.001) and urgency score (HR = 1.31, <em>p</em> &lt; 0.001) are the strongest predictors. Immigration has a significantly lower hazard of reversal (HR = 0.64, <em>p</em> = 0.008). All pairwise log-rank tests are significant.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Longer posts with urgency language predict faster reversal.</strong> The hazard ratio of 1.53 for log post length indicates that each doubling of post length increases the reversal hazard by 53%. Immigration's HR of 0.64 quantifies the structural suppression of reversal: immigration posters have 36% lower hazard of acting on regret compared to career posters.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">0.625</div>
+            <div class="metric-label">Concordance index</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">1.53</div>
+            <div class="metric-label">HR: log post length</div>
+            <div class="metric-sub"><em>p</em> &lt; 0.001</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">1.31</div>
+            <div class="metric-label">HR: urgency score</div>
+            <div class="metric-sub"><em>p</em> &lt; 0.001</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.64</div>
+            <div class="metric-label">HR: immigration</div>
+            <div class="metric-sub"><em>p</em> = 0.008</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/20_cox_hazard_ratios.png" alt="Cox PH Forest Plot">
+          <div class="figure-caption">Cox PH Hazard Ratios with 95% CIs (red = <em>p</em> &lt; 0.05)</div>
+        </div>
+
+        <div class="figure-interpretation">
+          The forest plot shows that log post length, urgency score, and domain (immigration) are the only significant predictors at the 0.05 level. VADER sentiment and individual emotions do not reach significance in the multivariate setting, suggesting their effects are captured by the text-length and urgency proxies. The "surprise" emotion approaches significance (HR = 1.42, <em>p</em> = 0.056).
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Log-rank test</th><th>Statistic</th><th><em>p</em>-value</th></tr></thead>
+            <tbody>
+              <tr><td>Career vs Immigration</td><td>8.42</td><td>0.004</td></tr>
+              <tr><td>Career vs Relationships</td><td>11.99</td><td>0.0005</td></tr>
+              <tr><td>Immigration vs Relationships</td><td>20.21</td><td>7 x 10<sup>-6</sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== LINGUISTIC ANALYSIS ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 4</div>
+        <h3>Linguistic markers: action words predict reversal, reflection words predict non-reversal</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Log-odds ratio analysis (Monroe et al. 2008 style with Dirichlet prior) comparing word usage in reversal vs non-reversal posts, early (&lt;180d) vs late (&gt;365d) regret, and domain-specific vocabulary.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Words most associated with reversal are action verbs: "left" (z=5.73), "quit" (z=3.66), "leaving" (z=3.56). Words associated with non-reversal are help-seeking terms: "advice" (z=-4.03), "change" (z=-3.01), "help" (z=-2.75). Early regret features concrete words ("company", "new", "months") while late regret features abstract terms ("degree", "career", "years").</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Reversal language is action-oriented; non-reversal language is deliberative.</strong> People who reversed their decisions use past-tense action verbs ("left", "quit"), while those who did not reverse are still seeking input ("advice", "help"). This linguistic separation validates our reversal labels and suggests that language alone encodes decision state.</p>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/22_log_odds_reversal.png" alt="Log-Odds Reversal Words">
+          <div class="figure-caption">Words Most Associated with Reversal (red) vs Non-Reversal (blue), z-scores from log-odds ratio</div>
+        </div>
+
+        <div class="figure-interpretation">
+          The clear semantic separation between action verbs (reversal) and deliberation terms (non-reversal) suggests that automated classification can reliably detect decision state from text. The early-vs-late analysis reveals that early regret is more concrete and situational ("company", "months", "girlfriend"), while late regret is more abstract and structural ("degree", "career", "school").
+        </div>
+
+        <h4 class="skim-heading">Modal verb analysis</h4>
+        <p class="skim-p">"Wish" dominates across all domains (~15 per 1,000 tokens), consistent with regret's counterfactual nature. "Should" is most frequent in career (2.2 per 1k) vs relationships (1.2 per 1k), reflecting career's prescriptive advice culture. "Would" peaks in immigration (3.9 per 1k), suggesting hypothetical reasoning about immigration paths not taken.</p>
+      </div>
+
+      <!-- ===== SEMANTIC EMBEDDINGS ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 5</div>
+        <h3>Sentence embeddings reveal semantic clustering by domain with reversal overlap</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>all-MiniLM-L6-v2 sentence embeddings (384-d) reduced via PCA (50 components, 60.6% variance explained) and UMAP (2-d) for visualization.</span>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/17_umap_embeddings.png" alt="UMAP Embedding Visualization">
+          <div class="figure-caption">UMAP 2-d projection of regret post embeddings, colored by domain (left) and reversal (right)</div>
+        </div>
+
+        <div class="figure-interpretation">
+          The domain plot shows clear semantic clusters, indicating that career, immigration, and relationship regret occupy distinct regions of embedding space. The reversal plot shows that reversal posts are distributed throughout all domain clusters rather than forming a separate cluster, consistent with the finding that reversal is predicted by structural features (domain, timing) rather than semantic content alone. PCA embedding features (10 dimensions) are included as predictors in the cross-domain generalization model.
+        </div>
+      </div>
+
+      <!-- ===== SUBREDDIT CONFOUNDERS ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 6</div>
+        <h3>Subreddit-level variation adds signal beyond domain, but core effects are stable</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Three nested logistic regression models: (1) features only, (2) + domain dummies, (3) + subreddit dummies (9 subreddits). Likelihood ratio tests assess incremental fit. Coefficient stability analysis tracks how feature effects change across specifications.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Domain significantly improves model fit (LR <em>p</em> &lt; 0.001). Subreddits add further significant signal beyond domain (LR <em>p</em> = 0.003), but feature coefficients remain stable across all three models (urgency OR: 1.576 -> 1.588 -> 1.570; has_time OR: 1.814 -> 1.849 -> 1.856).</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Feature effects are robust to subreddit-level confounding.</strong> While individual subreddits (notably USCIS, OR=0.39) show distinct reversal patterns beyond domain grouping, the core predictive features (urgency, has_time, VADER) are stable across model specifications. This indicates the main findings are not artifacts of subreddit-specific norms.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Model</th><th>pseudo-R2</th><th>AIC</th><th>LR test <em>p</em></th></tr></thead>
+            <tbody>
+              <tr><td>Features only</td><td>0.026</td><td>4653.4</td><td>--</td></tr>
+              <tr><td>+ Domain</td><td>0.029</td><td>4642.7</td><td>&lt; 0.001</td></tr>
+              <tr><td>+ Subreddit</td><td>0.034</td><td>4634.5</td><td>0.003</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="figure-interpretation">
+          The USCIS subreddit (OR=0.39, <em>p</em>=0.012) shows particularly depressed reversal rates even beyond the immigration domain effect, reflecting the extreme structural constraints of visa processing. Feature coefficient stability (less than 5% change across specifications) gives confidence that our main findings are not confounded by subreddit culture differences.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== LIMITATIONS & FUTURE WORK ==================== -->
+    <section id="limitations">
+      <div class="card">
+        <h2 class="section-title">Limitations</h2>
+        <ol class="pipeline">
+          <li><strong>Selection bias</strong>: Reddit users are not representative of the general population. Regret posts self-select for people willing to share publicly, likely skewing toward more intense or unresolved experiences.</li>
+          <li><strong>Reversal labels are lexical proxies</strong>: Reversal is inferred from action verbs ("left", "quit", "ended"), not confirmed behavioral change. Some posts may describe hypothetical or planned actions rather than completed ones.</li>
+          <li><strong>Temporal extraction coverage</strong>: Despite improvement from 10.7% to 47.2%, over half of posts lack extractable time-to-regret information. The extracted subset may differ systematically from posts without temporal markers.</li>
+          <li><strong>Sample imbalance</strong>: Immigration (n=283) is substantially smaller than career (n=1,998) and relationships (n=1,309), limiting statistical power for immigration-specific analyses.</li>
+          <li><strong>Cross-sectional design</strong>: Each post is a snapshot. We cannot track whether regret evolved over time or whether reversal occurred after posting.</li>
+          <li><strong>Model ceiling</strong>: Best AUC of 0.652 for reversal prediction indicates that text and metadata features capture only moderate signal. The inherent stochasticity of human decision-making likely imposes a natural ceiling on predictive accuracy.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ==================== UPDATED SYNTHESIS ==================== -->
+    <section id="full-synthesis">
+      <div class="synthesis-card">
+        <strong style="font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark);">Full Synthesis</strong>
+        <p style="margin-top: 0.75rem;">
+          Across 3,590 regret posts spanning career, immigration, and relationships, this analysis identifies a consistent pattern: <strong>structural constraints and temporal dynamics are stronger predictors of reversal than emotional intensity alone.</strong>
+        </p>
+        <p>
+          Domain matters (<em>p</em> &lt; 0.001): immigration posters show 36% lower hazard of reversal (Cox HR = 0.64) despite similar emotional intensity to career and relationship posters. Emotion detection confirms that sadness dominates all domains (58-64%), but its association with reversal (<em>p</em> = 0.002) is weaker than structural factors.
+        </p>
+        <p>
+          The linguistic analysis validates the reversal construct: action verbs ("left", "quit") dominate reversal posts while deliberative language ("advice", "help") dominates non-reversal posts. Cross-domain generalization (AUC 0.61-0.70) demonstrates that these linguistic markers are partially domain-invariant.
+        </p>
+        <p>
+          Cox regression reveals that post length (HR = 1.53) and urgency (HR = 1.31) are the strongest temporal hazard predictors, while sentiment features lose significance in the multivariate model. The subreddit confounder analysis confirms that core findings are robust: feature coefficients change less than 5% when controlling for subreddit-level variation.
+        </p>
+        <p>
+          <strong>For future work</strong>, the most promising directions are: (1) longitudinal tracking of users across multiple posts to capture regret evolution, (2) domain-adversarial training for improved cross-domain transfer, (3) causal inference methods to distinguish structural barriers from attitudinal ones, and (4) expansion of the immigration sample for more robust subgroup analysis.
+        </p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">

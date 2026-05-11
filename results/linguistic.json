@@ -1,0 +1,930 @@
+{
+  "log_odds_reversal": {
+    "pro_reversal_top20": {
+      "left": {
+        "log_odds": 3.3832,
+        "z_score": 5.7251,
+        "freq_a": 62,
+        "freq_b": 2
+      },
+      "quit": {
+        "log_odds": 1.9969,
+        "z_score": 3.6604,
+        "freq_a": 20,
+        "freq_b": 3
+      },
+      "leaving": {
+        "log_odds": 1.2211,
+        "z_score": 3.5574,
+        "freq_a": 28,
+        "freq_b": 11
+      },
+      "later": {
+        "log_odds": 1.0001,
+        "z_score": 3.2488,
+        "freq_a": 30,
+        "freq_b": 15
+      },
+      "quitting": {
+        "log_odds": 2.2105,
+        "z_score": 2.9102,
+        "freq_a": 12,
+        "freq_b": 1
+      },
+      "rejected": {
+        "log_odds": 2.9777,
+        "z_score": 2.8768,
+        "freq_a": 13,
+        "freq_b": 0
+      },
+      "quite": {
+        "log_odds": 2.8236,
+        "z_score": 2.7128,
+        "freq_a": 11,
+        "freq_b": 0
+      },
+      "jee": {
+        "log_odds": 2.7366,
+        "z_score": 2.6201,
+        "freq_a": 10,
+        "freq_b": 0
+      },
+      "rejecting": {
+        "log_odds": 2.7366,
+        "z_score": 2.6201,
+        "freq_a": 10,
+        "freq_b": 0
+      },
+      "company": {
+        "log_odds": 0.5287,
+        "z_score": 2.565,
+        "freq_a": 51,
+        "freq_b": 42
+      },
+      "decisions": {
+        "log_odds": 1.1008,
+        "z_score": 2.4049,
+        "freq_a": 14,
+        "freq_b": 6
+      },
+      "putting": {
+        "log_odds": 1.1008,
+        "z_score": 2.4049,
+        "freq_a": 14,
+        "freq_b": 6
+      },
+      "story": {
+        "log_odds": 1.0318,
+        "z_score": 2.3829,
+        "freq_a": 15,
+        "freq_b": 7
+      },
+      "stay": {
+        "log_odds": 0.9747,
+        "z_score": 2.3644,
+        "freq_a": 16,
+        "freq_b": 8
+      },
+      "regretting": {
+        "log_odds": 0.9747,
+        "z_score": 2.3644,
+        "freq_a": 16,
+        "freq_b": 8
+      },
+      "told": {
+        "log_odds": 0.4895,
+        "z_score": 2.3536,
+        "freq_a": 49,
+        "freq_b": 42
+      },
+      "prepared": {
+        "log_odds": 1.4373,
+        "z_score": 2.1559,
+        "freq_a": 8,
+        "freq_b": 2
+      },
+      "angry": {
+        "log_odds": 1.255,
+        "z_score": 2.1213,
+        "freq_a": 9,
+        "freq_b": 3
+      },
+      "coming": {
+        "log_odds": 0.9577,
+        "z_score": 2.0429,
+        "freq_a": 12,
+        "freq_b": 6
+      },
+      "met": {
+        "log_odds": 0.8495,
+        "z_score": 2.0148,
+        "freq_a": 14,
+        "freq_b": 8
+      }
+    },
+    "anti_reversal_top20": {
+      "advice": {
+        "log_odds": -1.3239,
+        "z_score": -4.0256,
+        "freq_a": 10,
+        "freq_b": 57
+      },
+      "messed": {
+        "log_odds": -0.1982,
+        "z_score": -3.097,
+        "freq_a": 386,
+        "freq_b": 661
+      },
+      "change": {
+        "log_odds": -1.4531,
+        "z_score": -3.0082,
+        "freq_a": 4,
+        "freq_b": 29
+      },
+      "girl": {
+        "log_odds": -1.2708,
+        "z_score": -2.8415,
+        "freq_a": 5,
+        "freq_b": 29
+      },
+      "help": {
+        "log_odds": -0.669,
+        "z_score": -2.7459,
+        "freq_a": 22,
+        "freq_b": 62
+      },
+      "interview": {
+        "log_odds": -0.6058,
+        "z_score": -2.72,
+        "freq_a": 27,
+        "freq_b": 71
+      },
+      "internship": {
+        "log_odds": -1.4531,
+        "z_score": -2.6906,
+        "freq_a": 3,
+        "freq_b": 23
+      },
+      "gf": {
+        "log_odds": -1.2708,
+        "z_score": -2.5939,
+        "freq_a": 4,
+        "freq_b": 24
+      },
+      "experience": {
+        "log_odds": -0.81,
+        "z_score": -2.5446,
+        "freq_a": 12,
+        "freq_b": 40
+      },
+      "something": {
+        "log_odds": -0.4058,
+        "z_score": -2.5224,
+        "freq_a": 56,
+        "freq_b": 119
+      },
+      "people": {
+        "log_odds": -0.6628,
+        "z_score": -2.4047,
+        "freq_a": 17,
+        "freq_b": 48
+      },
+      "guy": {
+        "log_odds": -1.0884,
+        "z_score": -2.3943,
+        "freq_a": 5,
+        "freq_b": 24
+      },
+      "low": {
+        "log_odds": -2.4339,
+        "z_score": -2.3612,
+        "freq_a": 0,
+        "freq_b": 15
+      },
+      "always": {
+        "log_odds": -0.6568,
+        "z_score": -2.3139,
+        "freq_a": 16,
+        "freq_b": 45
+      },
+      "known": {
+        "log_odds": -0.7898,
+        "z_score": -2.2769,
+        "freq_a": 10,
+        "freq_b": 33
+      },
+      "degree": {
+        "log_odds": -0.4426,
+        "z_score": -2.2596,
+        "freq_a": 37,
+        "freq_b": 82
+      },
+      "any": {
+        "log_odds": -0.5368,
+        "z_score": -2.255,
+        "freq_a": 24,
+        "freq_b": 59
+      },
+      "filed": {
+        "log_odds": -1.6762,
+        "z_score": -2.2267,
+        "freq_a": 1,
+        "freq_b": 14
+      },
+      "interviews": {
+        "log_odds": -1.6762,
+        "z_score": -2.2267,
+        "freq_a": 1,
+        "freq_b": 14
+      },
+      "program": {
+        "log_odds": -2.3004,
+        "z_score": -2.2224,
+        "freq_a": 0,
+        "freq_b": 13
+      }
+    }
+  },
+  "log_odds_early_vs_late": {
+    "early_top20": {
+      "messed": {
+        "log_odds": 0.4874,
+        "z_score": 4.2228,
+        "freq_a": 269,
+        "freq_b": 103
+      },
+      "company": {
+        "log_odds": 1.8359,
+        "z_score": 3.0319,
+        "freq_a": 29,
+        "freq_b": 2
+      },
+      "new": {
+        "log_odds": 2.0983,
+        "z_score": 2.8595,
+        "freq_a": 25,
+        "freq_b": 1
+      },
+      "months": {
+        "log_odds": 1.2073,
+        "z_score": 2.7138,
+        "freq_a": 31,
+        "freq_b": 5
+      },
+      "want": {
+        "log_odds": 0.6647,
+        "z_score": 2.5849,
+        "freq_a": 61,
+        "freq_b": 19
+      },
+      "know": {
+        "log_odds": 0.4792,
+        "z_score": 2.572,
+        "freq_a": 102,
+        "freq_b": 39
+      },
+      "saying": {
+        "log_odds": 1.1428,
+        "z_score": 2.5553,
+        "freq_a": 29,
+        "freq_b": 5
+      },
+      "job": {
+        "log_odds": 0.4931,
+        "z_score": 2.5158,
+        "freq_a": 93,
+        "freq_b": 35
+      },
+      "girlfriend": {
+        "log_odds": 1.5257,
+        "z_score": 2.479,
+        "freq_a": 21,
+        "freq_b": 2
+      },
+      "everything": {
+        "log_odds": 1.5257,
+        "z_score": 2.479,
+        "freq_a": 21,
+        "freq_b": 2
+      },
+      "tell": {
+        "log_odds": 1.1089,
+        "z_score": 2.4724,
+        "freq_a": 28,
+        "freq_b": 5
+      },
+      "need": {
+        "log_odds": 1.182,
+        "z_score": 2.4205,
+        "freq_a": 25,
+        "freq_b": 4
+      },
+      "girl": {
+        "log_odds": 1.2825,
+        "z_score": 2.3674,
+        "freq_a": 22,
+        "freq_b": 3
+      },
+      "one": {
+        "log_odds": 0.6728,
+        "z_score": 2.3422,
+        "freq_a": 49,
+        "freq_b": 15
+      },
+      "someone": {
+        "log_odds": 1.1428,
+        "z_score": 2.3326,
+        "freq_a": 24,
+        "freq_b": 4
+      },
+      "also": {
+        "log_odds": 0.9997,
+        "z_score": 2.2072,
+        "freq_a": 25,
+        "freq_b": 5
+      },
+      "take": {
+        "log_odds": 1.1915,
+        "z_score": 2.1841,
+        "freq_a": 20,
+        "freq_b": 3
+      },
+      "asked": {
+        "log_odds": 1.1915,
+        "z_score": 2.1841,
+        "freq_a": 20,
+        "freq_b": 3
+      },
+      "really": {
+        "log_odds": 0.4701,
+        "z_score": 2.1457,
+        "freq_a": 73,
+        "freq_b": 28
+      },
+      "never": {
+        "log_odds": 0.6819,
+        "z_score": 2.1425,
+        "freq_a": 40,
+        "freq_b": 12
+      }
+    },
+    "late_top20": {
+      "degree": {
+        "log_odds": -1.6707,
+        "z_score": -4.3958,
+        "freq_a": 8,
+        "freq_b": 29
+      },
+      "years": {
+        "log_odds": -0.9775,
+        "z_score": -4.2327,
+        "freq_a": 29,
+        "freq_b": 49
+      },
+      "career": {
+        "log_odds": -1.4599,
+        "z_score": -3.9438,
+        "freq_a": 9,
+        "freq_b": 26
+      },
+      "school": {
+        "log_odds": -1.1598,
+        "z_score": -2.9947,
+        "freq_a": 9,
+        "freq_b": 19
+      },
+      "engineering": {
+        "log_odds": -1.6707,
+        "z_score": -2.5379,
+        "freq_a": 2,
+        "freq_b": 9
+      },
+      "graduated": {
+        "log_odds": -1.5653,
+        "z_score": -2.3479,
+        "freq_a": 2,
+        "freq_b": 8
+      },
+      "life": {
+        "log_odds": -0.649,
+        "z_score": -2.1436,
+        "freq_a": 19,
+        "freq_b": 23
+      },
+      "move": {
+        "log_odds": -0.8721,
+        "z_score": -2.1363,
+        "freq_a": 9,
+        "freq_b": 14
+      },
+      "decisions": {
+        "log_odds": -1.1598,
+        "z_score": -1.894,
+        "freq_a": 3,
+        "freq_b": 7
+      },
+      "college": {
+        "log_odds": -0.6743,
+        "z_score": -1.8059,
+        "freq_a": 12,
+        "freq_b": 15
+      },
+      "instead": {
+        "log_odds": -0.729,
+        "z_score": -1.7333,
+        "freq_a": 9,
+        "freq_b": 12
+      },
+      "earlier": {
+        "log_odds": -0.7544,
+        "z_score": -1.7107,
+        "freq_a": 8,
+        "freq_b": 11
+      },
+      "known": {
+        "log_odds": -0.9367,
+        "z_score": -1.6431,
+        "freq_a": 4,
+        "freq_b": 7
+      },
+      "wish": {
+        "log_odds": -0.1639,
+        "z_score": -1.5915,
+        "freq_a": 221,
+        "freq_b": 163
+      },
+      "into": {
+        "log_odds": -0.3897,
+        "z_score": -1.4041,
+        "freq_a": 26,
+        "freq_b": 24
+      },
+      "friends": {
+        "log_odds": -0.5408,
+        "z_score": -1.404,
+        "freq_a": 12,
+        "freq_b": 13
+      },
+      "etc": {
+        "log_odds": -0.8032,
+        "z_score": -1.3716,
+        "freq_a": 4,
+        "freq_b": 6
+      },
+      "internships": {
+        "log_odds": -0.8032,
+        "z_score": -1.3716,
+        "freq_a": 4,
+        "freq_b": 6
+      },
+      "past": {
+        "log_odds": -0.5467,
+        "z_score": -1.3657,
+        "freq_a": 11,
+        "freq_b": 12
+      },
+      "getting": {
+        "log_odds": -0.4667,
+        "z_score": -1.32,
+        "freq_a": 15,
+        "freq_b": 15
+      }
+    }
+  },
+  "log_odds_by_domain": {
+    "career": {
+      "job": {
+        "log_odds": 3.3223,
+        "z_score": 10.3519,
+        "freq_a": 332,
+        "freq_b": 9
+      },
+      "college": {
+        "log_odds": 2.312,
+        "z_score": 6.2854,
+        "freq_a": 96,
+        "freq_b": 7
+      },
+      "degree": {
+        "log_odds": 3.4889,
+        "z_score": 5.9675,
+        "freq_a": 117,
+        "freq_b": 2
+      },
+      "career": {
+        "log_odds": 3.4456,
+        "z_score": 5.8902,
+        "freq_a": 112,
+        "freq_b": 2
+      },
+      "work": {
+        "log_odds": 1.1535,
+        "z_score": 5.7153,
+        "freq_a": 117,
+        "freq_b": 30
+      },
+      "school": {
+        "log_odds": 1.5631,
+        "z_score": 5.5862,
+        "freq_a": 85,
+        "freq_b": 14
+      },
+      "company": {
+        "log_odds": 3.6562,
+        "z_score": 5.116,
+        "freq_a": 92,
+        "freq_b": 1
+      },
+      "offer": {
+        "log_odds": 3.5304,
+        "z_score": 4.9329,
+        "freq_a": 81,
+        "freq_b": 1
+      },
+      "interview": {
+        "log_odds": 1.2031,
+        "z_score": 4.8123,
+        "freq_a": 79,
+        "freq_b": 19
+      },
+      "taking": {
+        "log_odds": 1.6085,
+        "z_score": 4.7093,
+        "freq_a": 59,
+        "freq_b": 9
+      },
+      "jobs": {
+        "log_odds": 2.2371,
+        "z_score": 4.2878,
+        "freq_a": 44,
+        "freq_b": 3
+      },
+      "position": {
+        "log_odds": 2.5248,
+        "z_score": 4.2343,
+        "freq_a": 44,
+        "freq_b": 2
+      },
+      "working": {
+        "log_odds": 1.8449,
+        "z_score": 3.8781,
+        "freq_a": 37,
+        "freq_b": 4
+      },
+      "decision": {
+        "log_odds": 0.9452,
+        "z_score": 3.8538,
+        "freq_a": 67,
+        "freq_b": 21
+      },
+      "salary": {
+        "log_odds": 2.7346,
+        "z_score": 3.7668,
+        "freq_a": 36,
+        "freq_b": 1
+      }
+    },
+    "immigration": {
+      "filed": {
+        "log_odds": 3.5894,
+        "z_score": 4.7682,
+        "freq_a": 14,
+        "freq_b": 1
+      },
+      "card": {
+        "log_odds": 3.2792,
+        "z_score": 4.2659,
+        "freq_a": 10,
+        "freq_b": 1
+      },
+      "application": {
+        "log_odds": 1.5099,
+        "z_score": 4.2013,
+        "freq_a": 14,
+        "freq_b": 15
+      },
+      "lawyer": {
+        "log_odds": 3.9724,
+        "z_score": 3.8032,
+        "freq_a": 10,
+        "freq_b": 0
+      },
+      "visa": {
+        "log_odds": 2.2676,
+        "z_score": 3.703,
+        "freq_a": 7,
+        "freq_b": 3
+      },
+      "medical": {
+        "log_odds": 1.9109,
+        "z_score": 3.2635,
+        "freq_a": 6,
+        "freq_b": 4
+      },
+      "applied": {
+        "log_odds": 1.1437,
+        "z_score": 3.2102,
+        "freq_a": 12,
+        "freq_b": 19
+      },
+      "case": {
+        "log_odds": 1.4691,
+        "z_score": 3.1974,
+        "freq_a": 8,
+        "freq_b": 9
+      },
+      "name": {
+        "log_odds": 1.4691,
+        "z_score": 3.1974,
+        "freq_a": 8,
+        "freq_b": 9
+      },
+      "dates": {
+        "log_odds": 1.7286,
+        "z_score": 3.1071,
+        "freq_a": 6,
+        "freq_b": 5
+      },
+      "travel": {
+        "log_odds": 1.5745,
+        "z_score": 2.727,
+        "freq_a": 5,
+        "freq_b": 5
+      },
+      "form": {
+        "log_odds": 1.4203,
+        "z_score": 2.5529,
+        "freq_a": 5,
+        "freq_b": 6
+      },
+      "married": {
+        "log_odds": 1.2868,
+        "z_score": 2.3826,
+        "freq_a": 5,
+        "freq_b": 7
+      },
+      "moving": {
+        "log_odds": 1.0148,
+        "z_score": 2.2898,
+        "freq_a": 7,
+        "freq_b": 13
+      },
+      "close": {
+        "log_odds": 1.169,
+        "z_score": 2.218,
+        "freq_a": 5,
+        "freq_b": 8
+      }
+    },
+    "relationships": {
+      "relationship": {
+        "log_odds": 3.5702,
+        "z_score": 7.8179,
+        "freq_a": 116,
+        "freq_b": 4
+      },
+      "said": {
+        "log_odds": 1.181,
+        "z_score": 6.7576,
+        "freq_a": 102,
+        "freq_b": 47
+      },
+      "things": {
+        "log_odds": 1.0002,
+        "z_score": 6.5586,
+        "freq_a": 119,
+        "freq_b": 66
+      },
+      "love": {
+        "log_odds": 1.4974,
+        "z_score": 5.4887,
+        "freq_a": 52,
+        "freq_b": 17
+      },
+      "friend": {
+        "log_odds": 1.7392,
+        "z_score": 5.3531,
+        "freq_a": 44,
+        "freq_b": 11
+      },
+      "fucked": {
+        "log_odds": 1.392,
+        "z_score": 5.3043,
+        "freq_a": 52,
+        "freq_b": 19
+      },
+      "ex": {
+        "log_odds": 3.6161,
+        "z_score": 5.0127,
+        "freq_a": 48,
+        "freq_b": 1
+      },
+      "together": {
+        "log_odds": 2.181,
+        "z_score": 4.9361,
+        "freq_a": 34,
+        "freq_b": 5
+      },
+      "broke": {
+        "log_odds": 2.3344,
+        "z_score": 4.8737,
+        "freq_a": 33,
+        "freq_b": 4
+      },
+      "partner": {
+        "log_odds": 3.3352,
+        "z_score": 4.5942,
+        "freq_a": 36,
+        "freq_b": 1
+      },
+      "know": {
+        "log_odds": 0.4995,
+        "z_score": 4.443,
+        "freq_a": 164,
+        "freq_b": 151
+      },
+      "guy": {
+        "log_odds": 2.327,
+        "z_score": 4.3433,
+        "freq_a": 26,
+        "freq_b": 3
+      },
+      "hurt": {
+        "log_odds": 2.327,
+        "z_score": 4.3433,
+        "freq_a": 26,
+        "freq_b": 3
+      },
+      "talk": {
+        "log_odds": 1.3619,
+        "z_score": 4.3239,
+        "freq_a": 35,
+        "freq_b": 13
+      },
+      "told": {
+        "log_odds": 0.9225,
+        "z_score": 4.3101,
+        "freq_a": 57,
+        "freq_b": 34
+      }
+    }
+  },
+  "modal_verbs": {
+    "should": {
+      "by_domain": {
+        "career": {
+          "count": 80,
+          "rate_per_1000": 2.2
+        },
+        "immigration": {
+          "count": 6,
+          "rate_per_1000": 1.22
+        },
+        "relationships": {
+          "count": 31,
+          "rate_per_1000": 1.16
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 78,
+          "rate_per_1000": 1.9
+        },
+        "1": {
+          "count": 39,
+          "rate_per_1000": 1.45
+        }
+      }
+    },
+    "could": {
+      "by_domain": {
+        "career": {
+          "count": 62,
+          "rate_per_1000": 1.71
+        },
+        "immigration": {
+          "count": 7,
+          "rate_per_1000": 1.43
+        },
+        "relationships": {
+          "count": 59,
+          "rate_per_1000": 2.2
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 81,
+          "rate_per_1000": 1.97
+        },
+        "1": {
+          "count": 47,
+          "rate_per_1000": 1.75
+        }
+      }
+    },
+    "would": {
+      "by_domain": {
+        "career": {
+          "count": 99,
+          "rate_per_1000": 2.72
+        },
+        "immigration": {
+          "count": 19,
+          "rate_per_1000": 3.87
+        },
+        "relationships": {
+          "count": 66,
+          "rate_per_1000": 2.47
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 108,
+          "rate_per_1000": 2.63
+        },
+        "1": {
+          "count": 76,
+          "rate_per_1000": 2.83
+        }
+      }
+    },
+    "wish": {
+      "by_domain": {
+        "career": {
+          "count": 561,
+          "rate_per_1000": 15.44
+        },
+        "immigration": {
+          "count": 71,
+          "rate_per_1000": 14.46
+        },
+        "relationships": {
+          "count": 378,
+          "rate_per_1000": 14.12
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 611,
+          "rate_per_1000": 14.86
+        },
+        "1": {
+          "count": 399,
+          "rate_per_1000": 14.84
+        }
+      }
+    },
+    "might": {
+      "by_domain": {
+        "career": {
+          "count": 19,
+          "rate_per_1000": 0.52
+        },
+        "immigration": {
+          "count": 2,
+          "rate_per_1000": 0.41
+        },
+        "relationships": {
+          "count": 10,
+          "rate_per_1000": 0.37
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 18,
+          "rate_per_1000": 0.44
+        },
+        "1": {
+          "count": 13,
+          "rate_per_1000": 0.48
+        }
+      }
+    },
+    "must": {
+      "by_domain": {
+        "career": {
+          "count": 1,
+          "rate_per_1000": 0.03
+        },
+        "immigration": {
+          "count": 0,
+          "rate_per_1000": 0.0
+        },
+        "relationships": {
+          "count": 2,
+          "rate_per_1000": 0.07
+        }
+      },
+      "by_reversal": {
+        "0": {
+          "count": 3,
+          "rate_per_1000": 0.07
+        },
+        "1": {
+          "count": 0,
+          "rate_per_1000": 0.0
+        }
+      }
+    }
+  }
+}

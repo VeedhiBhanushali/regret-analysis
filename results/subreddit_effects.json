@@ -1,0 +1,290 @@
+{
+  "model_features_only": {
+    "description": "reversal ~ vader + urgency + has_time",
+    "coefficients": {
+      "const": {
+        "coef": -0.963,
+        "se": 0.0789,
+        "odds_ratio": 0.3817,
+        "ci_lower_or": 0.3271,
+        "ci_upper_or": 0.4455,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "vader_compound": {
+        "coef": -0.0588,
+        "se": 0.1054,
+        "odds_ratio": 0.9429,
+        "ci_lower_or": 0.7669,
+        "ci_upper_or": 1.1592,
+        "p_value": 0.576751,
+        "significant": false
+      },
+      "vader_neg": {
+        "coef": 0.611,
+        "se": 0.4283,
+        "odds_ratio": 1.8423,
+        "ci_lower_or": 0.7958,
+        "ci_upper_or": 4.2651,
+        "p_value": 0.15368,
+        "significant": false
+      },
+      "urgency_score": {
+        "coef": 0.4551,
+        "se": 0.0794,
+        "odds_ratio": 1.5764,
+        "ci_lower_or": 1.3492,
+        "ci_upper_or": 1.8418,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "has_time": {
+        "coef": 0.5956,
+        "se": 0.0703,
+        "odds_ratio": 1.8141,
+        "ci_lower_or": 1.5806,
+        "ci_upper_or": 2.082,
+        "p_value": 0.0,
+        "significant": true
+      }
+    },
+    "pseudo_r2": 0.0263,
+    "aic": 4653.41,
+    "llf": -2321.7
+  },
+  "model_with_domain": {
+    "description": "reversal ~ vader + urgency + has_time + domain",
+    "coefficients": {
+      "const": {
+        "coef": -0.8805,
+        "se": 0.0823,
+        "odds_ratio": 0.4146,
+        "ci_lower_or": 0.3528,
+        "ci_upper_or": 0.4871,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "vader_compound": {
+        "coef": -0.0694,
+        "se": 0.1057,
+        "odds_ratio": 0.933,
+        "ci_lower_or": 0.7584,
+        "ci_upper_or": 1.1477,
+        "p_value": 0.511678,
+        "significant": false
+      },
+      "vader_neg": {
+        "coef": 0.5885,
+        "se": 0.4296,
+        "odds_ratio": 1.8014,
+        "ci_lower_or": 0.7761,
+        "ci_upper_or": 4.1811,
+        "p_value": 0.170709,
+        "significant": false
+      },
+      "urgency_score": {
+        "coef": 0.4623,
+        "se": 0.0798,
+        "odds_ratio": 1.5877,
+        "ci_lower_or": 1.3579,
+        "ci_upper_or": 1.8565,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "has_time": {
+        "coef": 0.6147,
+        "se": 0.072,
+        "odds_ratio": 1.8491,
+        "ci_lower_or": 1.6057,
+        "ci_upper_or": 2.1295,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "domain_immigration": {
+        "coef": -0.5108,
+        "se": 0.1429,
+        "odds_ratio": 0.6,
+        "ci_lower_or": 0.4534,
+        "ci_upper_or": 0.794,
+        "p_value": 0.000352,
+        "significant": true
+      },
+      "domain_relationships": {
+        "coef": -0.145,
+        "se": 0.0763,
+        "odds_ratio": 0.865,
+        "ci_lower_or": 0.7449,
+        "ci_upper_or": 1.0045,
+        "p_value": 0.057309,
+        "significant": false
+      }
+    },
+    "pseudo_r2": 0.0294,
+    "aic": 4642.65,
+    "llf": -2314.32
+  },
+  "model_with_subreddit": {
+    "description": "reversal ~ vader + urgency + has_time + subreddit",
+    "coefficients": {
+      "const": {
+        "coef": -0.8083,
+        "se": 0.3252,
+        "odds_ratio": 0.4456,
+        "ci_lower_or": 0.2356,
+        "ci_upper_or": 0.8429,
+        "p_value": 0.012935,
+        "significant": true
+      },
+      "vader_compound": {
+        "coef": -0.0739,
+        "se": 0.106,
+        "odds_ratio": 0.9288,
+        "ci_lower_or": 0.7545,
+        "ci_upper_or": 1.1433,
+        "p_value": 0.485992,
+        "significant": false
+      },
+      "vader_neg": {
+        "coef": 0.5691,
+        "se": 0.4318,
+        "odds_ratio": 1.7666,
+        "ci_lower_or": 0.7579,
+        "ci_upper_or": 4.1182,
+        "p_value": 0.187539,
+        "significant": false
+      },
+      "urgency_score": {
+        "coef": 0.451,
+        "se": 0.08,
+        "odds_ratio": 1.5699,
+        "ci_lower_or": 1.342,
+        "ci_upper_or": 1.8366,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "has_time": {
+        "coef": 0.6181,
+        "se": 0.0723,
+        "odds_ratio": 1.8553,
+        "ci_lower_or": 1.6102,
+        "ci_upper_or": 2.1378,
+        "p_value": 0.0,
+        "significant": true
+      },
+      "sub_USCIS": {
+        "coef": -0.9328,
+        "se": 0.3733,
+        "odds_ratio": 0.3934,
+        "ci_lower_or": 0.1893,
+        "ci_upper_or": 0.8178,
+        "p_value": 0.012469,
+        "significant": true
+      },
+      "sub_careeradvice": {
+        "coef": -0.0406,
+        "se": 0.3361,
+        "odds_ratio": 0.9603,
+        "ci_lower_or": 0.4969,
+        "ci_upper_or": 1.8556,
+        "p_value": 0.903957,
+        "significant": false
+      },
+      "sub_careerguidance": {
+        "coef": 0.0078,
+        "se": 0.3317,
+        "odds_ratio": 1.0079,
+        "ci_lower_or": 0.5261,
+        "ci_upper_or": 1.9308,
+        "p_value": 0.981137,
+        "significant": false
+      },
+      "sub_cscareerquestions": {
+        "coef": -0.3303,
+        "se": 0.3341,
+        "odds_ratio": 0.7187,
+        "ci_lower_or": 0.3734,
+        "ci_upper_or": 1.3832,
+        "p_value": 0.322766,
+        "significant": false
+      },
+      "sub_immigration": {
+        "coef": -0.2545,
+        "se": 0.4025,
+        "odds_ratio": 0.7753,
+        "ci_lower_or": 0.3523,
+        "ci_upper_or": 1.7062,
+        "p_value": 0.527109,
+        "significant": false
+      },
+      "sub_jobs": {
+        "coef": 0.0512,
+        "se": 0.3309,
+        "odds_ratio": 1.0525,
+        "ci_lower_or": 0.5503,
+        "ci_upper_or": 2.013,
+        "p_value": 0.87711,
+        "significant": false
+      },
+      "sub_relationship_advice": {
+        "coef": -0.143,
+        "se": 0.3301,
+        "odds_ratio": 0.8668,
+        "ci_lower_or": 0.4539,
+        "ci_upper_or": 1.6552,
+        "p_value": 0.664826,
+        "significant": false
+      },
+      "sub_relationships": {
+        "coef": -0.2944,
+        "se": 0.3314,
+        "odds_ratio": 0.745,
+        "ci_lower_or": 0.3891,
+        "ci_upper_or": 1.4264,
+        "p_value": 0.374364,
+        "significant": false
+      }
+    },
+    "pseudo_r2": 0.0336,
+    "aic": 4634.54,
+    "llf": -2304.27
+  },
+  "lr_test_domain_effect": {
+    "lr_statistic": 14.7627,
+    "df": 2,
+    "p_value": 0.000623,
+    "significant": true,
+    "interpretation": "Does adding domain improve model over features alone?"
+  },
+  "lr_test_subreddit_beyond_domain": {
+    "lr_statistic": 20.1044,
+    "df": 6,
+    "p_value": 0.002653,
+    "significant": true,
+    "interpretation": "Does subreddit-level variation add predictive power beyond domain?"
+  },
+  "coefficient_stability": {
+    "vader_compound": {
+      "or_features_only": 0.9429,
+      "or_with_domain": 0.933,
+      "or_with_subreddit": 0.9288
+    },
+    "vader_neg": {
+      "or_features_only": 1.8423,
+      "or_with_domain": 1.8014,
+      "or_with_subreddit": 1.7666
+    },
+    "urgency_score": {
+      "or_features_only": 1.5764,
+      "or_with_domain": 1.5877,
+      "or_with_subreddit": 1.5699
+    },
+    "has_time": {
+      "or_features_only": 1.8141,
+      "or_with_domain": 1.8491,
+      "or_with_subreddit": 1.8553
+    }
+  },
+  "n_observations": 3590,
+  "n_subreddits": 9,
+  "n_domains": 3
+}

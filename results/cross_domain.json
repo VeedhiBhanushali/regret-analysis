@@ -1,0 +1,38 @@
+{
+  "career": {
+    "test_auc": 0.6378,
+    "ci_95_lower": 0.6135,
+    "ci_95_upper": 0.6631,
+    "n_train": 1592,
+    "n_test": 1998,
+    "train_domains": [
+      "immigration",
+      "relationships"
+    ],
+    "reversal_rate_test": 0.3854
+  },
+  "immigration": {
+    "test_auc": 0.697,
+    "ci_95_lower": 0.6317,
+    "ci_95_upper": 0.7635,
+    "n_train": 3307,
+    "n_test": 283,
+    "train_domains": [
+      "career",
+      "relationships"
+    ],
+    "reversal_rate_test": 0.2756
+  },
+  "relationships": {
+    "test_auc": 0.6092,
+    "ci_95_lower": 0.5766,
+    "ci_95_upper": 0.6407,
+    "n_train": 2281,
+    "n_test": 1309,
+    "train_domains": [
+      "career",
+      "immigration"
+    ],
+    "reversal_rate_test": 0.395
+  }
+}
