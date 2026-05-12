@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <style>
     :root {
       --reddit-red: #FF4500;
@@ -142,6 +143,7 @@
     <a href="#overview">Overview</a>
     <a href="#dataset">Dataset</a>
     <a href="#methods">Methods</a>
+    <a href="#explorer">Explorer</a>
     <a href="#results" class="active">Results</a>
     <a href="#extended">Extended</a>
     <a href="#analyzer">Analyzer</a>
@@ -198,6 +200,138 @@
       </ol>
       <a href="https://github.com/VeedhiBhanushali/regret-analysis" class="repo-link" target="_blank" rel="noopener">View Code on GitHub</a>
     </section>
+
+    <!-- ==================== INTERACTIVE EXPLORER ==================== -->
+    <section id="explorer">
+      <div class="card">
+        <h2 class="section-title">Interactive Data Explorer</h2>
+        <p>Explore key patterns across domains, emotions, and event types. Select a view from the dropdown and hover over data points for details.</p>
+
+        <div style="margin: 1.25rem 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <label for="chartSelect" style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">View:</label>
+          <select id="chartSelect" onchange="renderChart(this.value)" style="padding: 0.55rem 0.85rem; border: 2px solid #ddd; border-radius: 6px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; background: white; cursor: pointer;">
+            <option value="reversal_by_domain">Reversal Rate by Domain</option>
+            <option value="emotion_by_domain">Emotion Distribution by Domain</option>
+            <option value="reversal_by_emotion">Reversal Rate by Emotion</option>
+            <option value="time_by_domain">Time to Regret by Domain</option>
+            <option value="event_types">Reversal by Event Type</option>
+          </select>
+        </div>
+
+        <div id="interactiveChart" style="width: 100%; min-height: 420px;"></div>
+      </div>
+    </section>
+
+    <script>
+    const DOMAIN_COLORS = { career: '#FF4500', immigration: '#2196F3', relationships: '#9C27B0' };
+    const CHART_LAYOUT_BASE = {
+      font: { family: 'Source Sans 3, sans-serif' },
+      paper_bgcolor: 'white', plot_bgcolor: '#fafafa',
+      margin: { t: 50, b: 80, l: 65, r: 30 },
+      hoverlabel: { font: { family: 'Source Sans 3, sans-serif', size: 13 } }
+    };
+    const CHART_CONFIG = { responsive: true, displayModeBar: true, modeBarButtonsToRemove: ['lasso2d','select2d'], displaylogo: false };
+
+    function renderChart(view) {
+      const el = document.getElementById('interactiveChart');
+      if (view === 'reversal_by_domain') {
+        const domains = ['Career', 'Immigration', 'Relationships'];
+        const rates = [38.5, 27.6, 39.5];
+        const ns = [1998, 283, 1309];
+        const ciLow = [36.4, 22.6, 37.0];
+        const ciHigh = [40.6, 32.9, 42.3];
+        Plotly.newPlot(el, [{
+          type: 'bar', x: domains, y: rates,
+          marker: { color: [DOMAIN_COLORS.career, DOMAIN_COLORS.immigration, DOMAIN_COLORS.relationships], line: { width: 1.5, color: '#fff' } },
+          error_y: { type: 'data', symmetric: false, array: ciHigh.map((h,i) => h - rates[i]), arrayminus: rates.map((r,i) => r - ciLow[i]), color: '#333', thickness: 2, width: 6 },
+          text: ns.map(n => 'n = ' + n),
+          hovertemplate: '<b>%{x}</b><br>Reversal rate: %{y:.1f}%<br>95% CI: [' + ciLow.map((l,i) => l.toFixed(1) + '%, ' + ciHigh[i].toFixed(1) + '%').join('], [') + ']<extra></extra>',
+          customdata: ns.map((n,i) => [n, ciLow[i], ciHigh[i]]),
+          hovertemplate: '<b>%{x}</b><br>Reversal rate: %{y:.1f}%<br>95% CI: [%{customdata[1]:.1f}%, %{customdata[2]:.1f}%]<br>n = %{customdata[0]}<extra></extra>'
+        }], { ...CHART_LAYOUT_BASE, title: { text: 'Decision Reversal Rate by Life Domain', font: { size: 16 } }, yaxis: { title: 'Reversal Rate (%)', range: [0, 50] }, xaxis: { title: '' },
+          annotations: [{ x: 1, y: 15, text: 'χ² = 14.57, p < 0.001', showarrow: false, font: { size: 12, color: '#666' } }]
+        }, CHART_CONFIG);
+      }
+      else if (view === 'emotion_by_domain') {
+        const emotions = ['Sadness', 'Anger', 'Neutral', 'Surprise', 'Joy', 'Fear', 'Disgust'];
+        const data = {
+          career:        [64.1, 11.5, 7.6, 5.7, 5.6, 5.2, 0.4],
+          immigration:   [57.9, 9.1, 12.8, 9.8, 5.7, 4.4, 0.3],
+          relationships: [59.8, 19.4, 5.2, 3.9, 5.2, 5.6, 0.9]
+        };
+        const traces = Object.entries(data).map(([domain, vals]) => ({
+          type: 'bar', name: domain.charAt(0).toUpperCase() + domain.slice(1),
+          x: emotions, y: vals, marker: { color: DOMAIN_COLORS[domain] },
+          hovertemplate: '<b>%{x}</b> — ' + domain.charAt(0).toUpperCase() + domain.slice(1) + '<br>%{y:.1f}% of posts<extra></extra>'
+        }));
+        Plotly.newPlot(el, traces, { ...CHART_LAYOUT_BASE, barmode: 'group', title: { text: 'Emotion Distribution by Domain', font: { size: 16 } }, yaxis: { title: 'Percentage of Posts (%)' }, xaxis: { title: '' }, legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center' },
+          annotations: [{ x: 0.5, y: 1.08, xref: 'paper', yref: 'paper', text: 'χ² = 86.8, p < 10⁻¹³, Cramer\'s V = 0.109', showarrow: false, font: { size: 11, color: '#888' } }]
+        }, CHART_CONFIG);
+      }
+      else if (view === 'reversal_by_emotion') {
+        const emotions = ['Sadness', 'Anger', 'Joy', 'Surprise', 'Fear', 'Disgust', 'Neutral'];
+        const rates = [39.8, 38.8, 37.1, 36.8, 34.2, 30.0, 26.5];
+        const colors = rates.map(r => r > 37 ? '#FF4500' : r > 30 ? '#FF8C00' : '#999');
+        Plotly.newPlot(el, [{
+          type: 'bar', x: emotions, y: rates,
+          marker: { color: colors, line: { width: 1, color: '#fff' } },
+          hovertemplate: '<b>%{x}</b><br>Reversal rate: %{y:.1f}%<extra></extra>'
+        }], { ...CHART_LAYOUT_BASE, title: { text: 'Reversal Rate by Detected Emotion', font: { size: 16 } }, yaxis: { title: 'Reversal Rate (%)', range: [0, 50] },
+          annotations: [{ x: 0.5, y: 1.08, xref: 'paper', yref: 'paper', text: 'χ² = 19.6, p = 0.003 — emotional engagement predicts action', showarrow: false, font: { size: 11, color: '#888' } }],
+          shapes: [{ type: 'line', x0: -0.5, x1: 6.5, y0: 37.1, y1: 37.1, line: { color: '#ccc', width: 1, dash: 'dash' } }]
+        }, CHART_CONFIG);
+      }
+      else if (view === 'time_by_domain') {
+        const domains = ['Relationships', 'Career', 'Immigration'];
+        const medians = [60, 210, 365];
+        const ciLow = [60, 180, 365];
+        const ciHigh = [90, 365, 548];
+        const ns = [801, 783, 110];
+        Plotly.newPlot(el, [{
+          type: 'bar', x: domains, y: medians, orientation: 'v',
+          marker: { color: [DOMAIN_COLORS.relationships, DOMAIN_COLORS.career, DOMAIN_COLORS.immigration] },
+          error_y: { type: 'data', symmetric: false, array: ciHigh.map((h,i) => h - medians[i]), arrayminus: medians.map((m,i) => m - ciLow[i]), color: '#333', thickness: 2, width: 6 },
+          customdata: ns.map((n,i) => [n, ciLow[i], ciHigh[i]]),
+          hovertemplate: '<b>%{x}</b><br>Median: %{y} days<br>95% CI: [%{customdata[1]}, %{customdata[2]}] days<br>n = %{customdata[0]}<extra></extra>'
+        }], { ...CHART_LAYOUT_BASE, title: { text: 'Median Time to Regret Expression by Domain', font: { size: 16 } }, yaxis: { title: 'Days', type: 'log', dtick: 'D1' },
+          annotations: [{ x: 0, y: 40, text: '~2 months', showarrow: true, arrowhead: 2, ax: 40, ay: -30, font: { size: 11, color: DOMAIN_COLORS.relationships } },
+            { x: 1, y: 160, text: '~7 months', showarrow: true, arrowhead: 2, ax: 40, ay: -30, font: { size: 11, color: DOMAIN_COLORS.career } },
+            { x: 2, y: 280, text: '~1 year', showarrow: true, arrowhead: 2, ax: 40, ay: -30, font: { size: 11, color: DOMAIN_COLORS.immigration } }]
+        }, CHART_CONFIG);
+      }
+      else if (view === 'event_types') {
+        const eventData = [
+          { domain: 'Career', event: 'Voluntary quit', rate: 90.3, n: 331 },
+          { domain: 'Career', event: 'Rejected offer', rate: 90.0, n: 10 },
+          { domain: 'Career', event: 'Counteroffer/switch', rate: 81.3, n: 16 },
+          { domain: 'Career', event: 'Involuntary exit', rate: 80.5, n: 236 },
+          { domain: 'Immigration', event: 'Voluntary departure', rate: 53.8, n: 13 },
+          { domain: 'Immigration', event: 'Sponsor/job loss', rate: 50.0, n: 2 },
+          { domain: 'Immigration', event: 'Application trapped', rate: 33.3, n: 15 },
+          { domain: 'Immigration', event: 'Status/removal', rate: 31.6, n: 19 },
+          { domain: 'Immigration', event: 'Visa denial/error', rate: 26.3, n: 80 },
+          { domain: 'Relationships', event: 'Voluntary end', rate: 45.8, n: 168 },
+          { domain: 'Relationships', event: 'Abuse/toxicity', rate: 45.5, n: 314 },
+          { domain: 'Relationships', event: 'Conflict', rate: 43.5, n: 69 },
+          { domain: 'Relationships', event: 'Infidelity', rate: 39.0, n: 190 },
+          { domain: 'Relationships', event: 'External pressure', rate: 32.2, n: 87 },
+        ];
+        const traces = ['Career', 'Immigration', 'Relationships'].map(domain => {
+          const items = eventData.filter(d => d.domain === domain);
+          return {
+            type: 'scatter', mode: 'markers', name: domain,
+            x: items.map(d => d.event), y: items.map(d => d.rate),
+            marker: { size: items.map(d => Math.max(8, Math.sqrt(d.n) * 2.5)), color: DOMAIN_COLORS[domain.toLowerCase()], opacity: 0.85, line: { width: 1.5, color: 'white' } },
+            customdata: items.map(d => [d.n]),
+            hovertemplate: '<b>%{x}</b><br>Reversal rate: %{y:.1f}%<br>n = %{customdata[0]}<extra>' + domain + '</extra>'
+          };
+        });
+        Plotly.newPlot(el, traces, { ...CHART_LAYOUT_BASE, title: { text: 'Reversal Rate by Triggering Event Type (bubble size = sample size)', font: { size: 15 } }, yaxis: { title: 'Reversal Rate (%)', range: [0, 100] }, xaxis: { title: '', tickangle: -35 }, legend: { orientation: 'h', y: -0.3, x: 0.5, xanchor: 'center' }, margin: { ...CHART_LAYOUT_BASE.margin, b: 130 } }, CHART_CONFIG);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() { renderChart('reversal_by_domain'); });
+    </script>
 
     <!-- ==================== PRELIMINARY RESULTS ==================== -->
     <section id="results">
