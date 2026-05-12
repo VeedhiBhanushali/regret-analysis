@@ -1,0 +1,208 @@
+{
+  "reversal_by_year_overall": {
+    "2011": {
+      "rate": 0.0,
+      "n": 2
+    },
+    "2012": {
+      "rate": 0.125,
+      "n": 8
+    },
+    "2013": {
+      "rate": 0.25,
+      "n": 16
+    },
+    "2014": {
+      "rate": 0.4,
+      "n": 15
+    },
+    "2015": {
+      "rate": 0.375,
+      "n": 32
+    },
+    "2016": {
+      "rate": 0.4412,
+      "n": 34
+    },
+    "2017": {
+      "rate": 0.3553,
+      "n": 76
+    },
+    "2018": {
+      "rate": 0.3797,
+      "n": 79
+    },
+    "2019": {
+      "rate": 0.3415,
+      "n": 123
+    },
+    "2020": {
+      "rate": 0.4339,
+      "n": 189
+    },
+    "2021": {
+      "rate": 0.3021,
+      "n": 192
+    },
+    "2022": {
+      "rate": 0.3316,
+      "n": 193
+    },
+    "2023": {
+      "rate": 0.3365,
+      "n": 425
+    },
+    "2024": {
+      "rate": 0.4059,
+      "n": 717
+    },
+    "2025": {
+      "rate": 0.4115,
+      "n": 1135
+    },
+    "2026": {
+      "rate": 0.3505,
+      "n": 368
+    }
+  },
+  "era_reversal_rates": {
+    "pre_covid_career": {
+      "rate": 0.3301,
+      "n": 309
+    },
+    "pre_covid_immigration": {
+      "rate": 0.4688,
+      "n": 32
+    },
+    "pre_covid_relationships": {
+      "rate": 0.4545,
+      "n": 44
+    },
+    "covid_career": {
+      "rate": 0.36,
+      "n": 225
+    },
+    "covid_immigration": {
+      "rate": 0.2391,
+      "n": 46
+    },
+    "covid_relationships": {
+      "rate": 0.4364,
+      "n": 110
+    },
+    "post_covid_career": {
+      "rate": 0.401,
+      "n": 1464
+    },
+    "post_covid_immigration": {
+      "rate": 0.2648,
+      "n": 219
+    },
+    "post_covid_relationships": {
+      "rate": 0.3887,
+      "n": 1155
+    }
+  },
+  "chi_square_era_reversal": {
+    "chi2": 1.5669,
+    "p_value": 0.4568207655594483,
+    "dof": 2
+  },
+  "chi_square_era_career": {
+    "chi2": 6.0984,
+    "p_value": 0.04739616079914987,
+    "dof": 2
+  },
+  "chi_square_era_immigration": {
+    "chi2": 6.2358,
+    "p_value": 0.044250856183893995,
+    "dof": 2
+  },
+  "chi_square_era_relationships": {
+    "chi2": 1.6295,
+    "p_value": 0.4427395421767314,
+    "dof": 2
+  },
+  "great_resignation": {
+    "gr_reversal_rate": 0.3361,
+    "gr_n": 241,
+    "gr_ci": [
+      0.278,
+      0.3983
+    ],
+    "non_gr_reversal_rate": 0.3921,
+    "non_gr_n": 1757,
+    "non_gr_ci": [
+      0.3694,
+      0.4143
+    ],
+    "odds_ratio": 0.7847,
+    "p_fisher": 0.10444129496227494
+  },
+  "great_resignation_voluntary_quit": {
+    "gr_rate": 0.8537,
+    "gr_n": 41,
+    "non_gr_rate": 0.9103,
+    "non_gr_n": 290
+  },
+  "logistic_year_domain": {
+    "pseudo_r2": 0.0056,
+    "aic": 4773.16,
+    "n": 3604,
+    "coefficients": {
+      "const": {
+        "coef": -0.4076,
+        "p_value": 0.0,
+        "ci_lower": -0.5054,
+        "ci_upper": -0.3097
+      },
+      "year_centered": {
+        "coef": 0.0478,
+        "p_value": 0.003351,
+        "ci_lower": 0.0159,
+        "ci_upper": 0.0798
+      },
+      "d_immigration": {
+        "coef": -0.6219,
+        "p_value": 4.7e-05,
+        "ci_lower": -0.9211,
+        "ci_upper": -0.3226
+      },
+      "d_relationships": {
+        "coef": -0.018,
+        "p_value": 0.811236,
+        "ci_lower": -0.1659,
+        "ci_upper": 0.1299
+      },
+      "year_x_d_immigration": {
+        "coef": -0.1188,
+        "p_value": 0.008926,
+        "ci_lower": -0.2079,
+        "ci_upper": -0.0298
+      },
+      "year_x_d_relationships": {
+        "coef": -0.0831,
+        "p_value": 0.013769,
+        "ci_lower": -0.1492,
+        "ci_upper": -0.017
+      }
+    }
+  },
+  "km_by_era": {
+    "pre_covid": {
+      "n": 156,
+      "median_time": 90.0,
+      "reversal_rate": 0.4423
+    },
+    "covid": {
+      "n": 174,
+      "median_time": 180.0,
+      "reversal_rate": 0.4598
+    },
+    "post_covid": {
+      "n": 1370,
+      "median_time": 90.0,
+      "reversal_rate": 0.4584
+    }
+  }
+}

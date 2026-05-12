@@ -1,0 +1,42 @@
+{
+  "unmatched": {
+    "immigration_reversal": 0.2828,
+    "career_reversal": 0.3854,
+    "gap": 0.1026,
+    "n_immigration": 297,
+    "n_career": 1998
+  },
+  "matched": {
+    "immigration_reversal": 0.2828,
+    "immigration_ci": [
+      0.2323,
+      0.3334
+    ],
+    "career_reversal": 0.3535,
+    "career_ci": [
+      0.2997,
+      0.4074
+    ],
+    "att": 0.0707,
+    "n_pairs": 297,
+    "mcnemar_chi2": 3.2,
+    "mcnemar_p": 0.07363827012030295
+  },
+  "covariate_balance_smd": {
+    "vader_compound": 0.0029,
+    "vader_neg": -0.0134,
+    "urgency_score": 0.0394,
+    "log_post_length": 0.1061,
+    "post_year": -0.0127,
+    "agency_score": -0.0239,
+    "hedging_score": -0.0362,
+    "causal_reasoning_score": 0.001,
+    "future_orient_score": -0.1071
+  },
+  "career_vs_relationships_matched": {
+    "relationships_reversal": 0.3276,
+    "career_reversal": 0.5091,
+    "att": 0.1815,
+    "n_pairs": 876
+  }
+}

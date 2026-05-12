@@ -1,0 +1,163 @@
+{
+  "agency_score_by_domain": {
+    "career": {
+      "mean": 0.5401,
+      "std": 2.4845,
+      "median": 0.0
+    },
+    "immigration": {
+      "mean": 0.0955,
+      "std": 2.1712,
+      "median": 0.0
+    },
+    "relationships": {
+      "mean": 0.2902,
+      "std": 1.2572,
+      "median": 0.0
+    }
+  },
+  "hedging_score_by_domain": {
+    "career": {
+      "mean": 2.9411,
+      "std": 3.7172,
+      "median": 1.8374
+    },
+    "immigration": {
+      "mean": 2.1897,
+      "std": 3.7226,
+      "median": 0.0
+    },
+    "relationships": {
+      "mean": 2.5049,
+      "std": 2.5259,
+      "median": 2.0325
+    }
+  },
+  "social_embed_score_by_domain": {
+    "career": {
+      "mean": 1.1493,
+      "std": 2.4537,
+      "median": 0.0
+    },
+    "immigration": {
+      "mean": 2.5986,
+      "std": 4.1109,
+      "median": 0.0
+    },
+    "relationships": {
+      "mean": 2.0746,
+      "std": 2.2669,
+      "median": 1.6313
+    }
+  },
+  "causal_reasoning_score_by_domain": {
+    "career": {
+      "mean": 2.6166,
+      "std": 3.1605,
+      "median": 1.992
+    },
+    "immigration": {
+      "mean": 2.6118,
+      "std": 3.8656,
+      "median": 0.6757
+    },
+    "relationships": {
+      "mean": 2.0704,
+      "std": 1.7871,
+      "median": 1.7606
+    }
+  },
+  "future_orient_score_by_domain": {
+    "career": {
+      "mean": 3.9915,
+      "std": 4.3925,
+      "median": 3.2172
+    },
+    "immigration": {
+      "mean": 3.398,
+      "std": 3.9982,
+      "median": 2.3015
+    },
+    "relationships": {
+      "mean": 2.7426,
+      "std": 2.186,
+      "median": 2.3364
+    }
+  },
+  "correlation_with_reversal": {
+    "agency_score": {
+      "r": 0.0081,
+      "p_value": 0.628282750697802
+    },
+    "hedging_score": {
+      "r": -0.0259,
+      "p_value": 0.1194026815868613
+    },
+    "social_embed_score": {
+      "r": -0.0423,
+      "p_value": 0.011114365446227509
+    },
+    "causal_reasoning_score": {
+      "r": -0.0508,
+      "p_value": 0.002272727756432015
+    },
+    "future_orient_score": {
+      "r": -0.0974,
+      "p_value": 4.621935777358693e-09
+    }
+  },
+  "kruskal_by_domain": {
+    "agency_score": {
+      "H": 14.7761,
+      "p_value": 0.0006185958554289907
+    },
+    "hedging_score": {
+      "H": 35.3366,
+      "p_value": 2.122047917047457e-08
+    },
+    "social_embed_score": {
+      "H": 370.5262,
+      "p_value": 3.477477941901395e-81
+    },
+    "causal_reasoning_score": {
+      "H": 6.825,
+      "p_value": 0.03295929764668522
+    },
+    "future_orient_score": {
+      "H": 40.4642,
+      "p_value": 1.634203180907871e-09
+    }
+  },
+  "mannwhitney_reversal": {
+    "agency_score": {
+      "U": 1591513.0,
+      "p_value": 0.016223268232160606,
+      "rev_mean": 0.4343,
+      "non_rev_mean": 0.3994
+    },
+    "hedging_score": {
+      "U": 1606244.0,
+      "p_value": 0.010171396879765631,
+      "rev_mean": 2.61,
+      "non_rev_mean": 2.7887
+    },
+    "social_embed_score": {
+      "U": 1579106.5,
+      "p_value": 0.08183740464843088,
+      "rev_mean": 1.4634,
+      "non_rev_mean": 1.6916
+    },
+    "causal_reasoning_score": {
+      "U": 1522530.0,
+      "p_value": 0.783557082467006,
+      "rev_mean": 2.2344,
+      "non_rev_mean": 2.5304
+    },
+    "future_orient_score": {
+      "U": 1407532.5,
+      "p_value": 4.2448691643200446e-05,
+      "rev_mean": 3.0224,
+      "non_rev_mean": 3.7754
+    }
+  }
+}

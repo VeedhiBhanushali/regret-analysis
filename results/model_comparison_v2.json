@@ -1,0 +1,91 @@
+{
+  "correlation_with_reversal": {
+    "comment_count_log": {
+      "r": 0.0162,
+      "p_value": 0.3304616145273602
+    },
+    "score_log": {
+      "r": 0.0602,
+      "p_value": 0.00030120956257170556
+    },
+    "num_comments": {
+      "r": 0.0217,
+      "p_value": 0.19186997588081145
+    },
+    "score": {
+      "r": 0.0254,
+      "p_value": 0.1276819245910949
+    },
+    "upvote_ratio": {
+      "r": 0.0085,
+      "p_value": 0.8737976851406172
+    },
+    "comment_vader_mean": {
+      "r": 0.0164,
+      "p_value": 0.7803663176168095
+    }
+  },
+  "model_base": {
+    "features": [
+      "vader_compound",
+      "vader_neg",
+      "urgency_score",
+      "agency_score",
+      "hedging_score",
+      "causal_reasoning_score",
+      "future_orient_score",
+      "social_embed_score"
+    ],
+    "mean_auc": 0.6668,
+    "std_auc": 0.0118,
+    "cv_scores": [
+      0.688,
+      0.6631,
+      0.6635,
+      0.6521,
+      0.6674
+    ]
+  },
+  "model_with_engagement": {
+    "features": [
+      "vader_compound",
+      "vader_neg",
+      "urgency_score",
+      "agency_score",
+      "hedging_score",
+      "causal_reasoning_score",
+      "future_orient_score",
+      "social_embed_score",
+      "comment_count_log",
+      "score_log"
+    ],
+    "mean_auc": 0.6717,
+    "std_auc": 0.0142,
+    "cv_scores": [
+      0.6965,
+      0.6674,
+      0.6561,
+      0.6618,
+      0.6769
+    ]
+  },
+  "auc_improvement": 0.0049,
+  "feature_importances": {
+    "future_orient_score": 0.1471,
+    "causal_reasoning_score": 0.1361,
+    "vader_compound": 0.1277,
+    "hedging_score": 0.1235,
+    "vader_neg": 0.1049,
+    "comment_count_log": 0.0891,
+    "social_embed_score": 0.0891,
+    "agency_score": 0.0785,
+    "score_log": 0.078,
+    "urgency_score": 0.0261
+  },
+  "engagement_reversal_chi2": {
+    "chi2": 0.0321,
+    "p_value": 0.8578844377343243,
+    "high_eng_reversal_rate": 0.382,
+    "low_eng_reversal_rate": 0.3785
+  }
+}

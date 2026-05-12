@@ -1,0 +1,23 @@
+{
+  "n": 700,
+  "agreement_rate": 0.5771,
+  "cohens_kappa": 0.0285,
+  "confusion_matrix": {
+    "0": {
+      "0": 383,
+      "1": 278
+    },
+    "1": {
+      "0": 18,
+      "1": 21
+    }
+  },
+  "comment_reversal_rate": 0.0557,
+  "keyword_reversal_rate": 0.4271,
+  "domain_agreement": {
+    "career": 0.5771
+  },
+  "n_keyword_only": 278,
+  "n_comment_only": 18,
+  "upvote_ratio_mean": 0.8591
+}

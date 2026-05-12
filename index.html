@@ -134,7 +134,7 @@
             <tr><td>Filtered regret posts</td><td>3,604 (structured analysis subset)</td></tr>
             <tr><td>Domains</td><td>Career (1,998) - Immigration (297) - Relationships (1,309)</td></tr>
             <tr><td>Subreddits</td><td>r/cscareerquestions, r/careerguidance, r/jobs, r/careeradvice, r/USCIS, r/IWantOut, r/immigration, r/relationship_advice, r/relationships</td></tr>
-            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, topic, emotion, event_type, sentence embeddings (PCA-10)</td></tr>
+            <tr><td>Engineered features</td><td>vader_compound, vader_neg, urgency_score, reversal, time_to_regret_days, topic, emotion, event_type, agency_score, hedging_score, social_embed_score, causal_reasoning_score, future_orient_score, comment_count_log, score_log, sentence embeddings (PCA-10)</td></tr>
           </tbody>
         </table>
       </div>
@@ -147,7 +147,9 @@
       <h2 class="section-title">Methods</h2>
       <ol class="pipeline">
         <li><strong>Collection &amp; Filtering</strong>: Reddit API scraping followed by regex-based regret extraction with exclusion of hypothetical language.</li>
-        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns); sentence embeddings (all-MiniLM-L6-v2, PCA-50); 7-class emotion classification (GoEmotions distilRoBERTa); triggering event taxonomy (per-domain keyword-based event type labeling with priority ordering).</li>
+        <li><strong>Feature Engineering</strong>: VADER sentiment analysis on regret sentences; urgency scores from lexical cues; reversal labels from action verbs; time-to-regret from enhanced temporal extraction (regex + dateparser patterns); sentence embeddings (all-MiniLM-L6-v2, PCA-50); 7-class emotion classification (GoEmotions distilRoBERTa); triggering event taxonomy (per-domain keyword-based event type labeling); psycholinguistic features (agency, hedging, social embeddedness, causal reasoning, future orientation); community engagement metrics (log-comments, log-score, upvote ratio).</li>
+        <li><strong>Causal Inference</strong>: Propensity score matching (1:1 nearest-neighbor, career vs immigration); cohort/temporal analysis with logistic regression (year x domain interaction); Kaplan-Meier by era.</li>
+        <li><strong>Label Validation</strong>: Comment-thread scraping (n=700) for reversal confirmation; keyword vs comment-based label agreement (Cohen's kappa); LLM-based annotation pipeline (script ready, requires API key).</li>
         <li><strong>Modeling</strong>: Cross-domain reversal classification (LR/RF/GBM, stratified 5-fold CV, bootstrap CIs); leave-one-domain-out generalization; NMF topic modeling; Cox PH regression with 13 covariates; nested logistic models for subreddit confounding.</li>
         <li><strong>Statistical Testing</strong>: Chi-square tests; Mann-Whitney U with effect sizes; Kruskal-Wallis H; log-rank tests; likelihood ratio tests for model comparison; log-odds ratio linguistic analysis (Monroe et al. 2008); bootstrap CIs on all key metrics.</li>
       </ol>
@@ -482,9 +484,128 @@
         </div>
       </div>
 
+      <!-- ===== RESULT 5: COHORT/TEMPORAL ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 5</div>
+        <h3>Reversal rates diverge over time: career rises while immigration declines</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>Do reversal patterns change across years, and do external shocks (COVID, Great Resignation) affect the relationship between regret and action?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Logistic regression with year x domain interaction shows that reversal rates are significantly increasing over time for career posts (p = 0.003), but the year x immigration interaction is negative and significant (p = 0.009), indicating that immigration reversal rates have been declining relative to career. Era-level analysis confirms: reversal rates differ by era within career (chi-square = 6.1, p = 0.047) and immigration (chi-square = 6.2, p = 0.044).</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>The Great Resignation did not increase career reversal.</strong> Counterintuitively, career posts during 2021-2022 show a <em>lower</em> reversal rate (33.6%) than the baseline (39.2%), with Fisher p = 0.10. This indicates that Great Resignation-era career regret was more often about difficulty finding re-employment than about wanting to undo a quit decision.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">p = 0.003</div>
+            <div class="metric-label">Year effect on reversal</div>
+            <div class="metric-sub">Career posts</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">p = 0.009</div>
+            <div class="metric-label">Year x Immigration</div>
+            <div class="metric-sub">Interaction term</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">33.6%</div>
+            <div class="metric-label">Great Resignation reversal</div>
+            <div class="metric-sub">Career 2021-2022 (n=241)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">39.2%</div>
+            <div class="metric-label">Baseline reversal</div>
+            <div class="metric-sub">Career all other years</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/24_reversal_by_year.png" alt="Reversal Rate by Year">
+          <div class="figure-caption">Reversal Rate Over Time by Domain, with COVID and Great Resignation eras highlighted</div>
+        </div>
+        <div class="figure-block">
+          <img src="plots/25_km_by_era.png" alt="Kaplan-Meier by Era">
+          <div class="figure-caption">Kaplan-Meier survival curves by era (time-to-regret expression)</div>
+        </div>
+
+        <h4 class="skim-heading">Next steps</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Investigate whether specific event types (involuntary exit vs voluntary quit) drive the era-level career effects</li>
+            <li>Analyze whether immigration policy changes (travel bans, visa processing delays) explain the immigration decline</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== RESULT 6: LABEL VALIDATION ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Result 6</div>
+        <h3>Label validation: keyword-based reversal labels show low agreement with comment-based evidence</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Question</span>
+          <span>How accurate are the keyword-based reversal labels used throughout this study?</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Scraping comment threads for 700 posts and checking for OP replies confirming action, overall agreement between keyword-based and comment-based labels is 57.7% with Cohen's kappa = 0.03. The keyword method labels 42.7% of posts as reversal, while comment evidence supports only 5.6%. This large discrepancy indicates that keyword-based labels capture <em>intention to act</em> and <em>past action description</em> rather than confirmed post-regret behavioral change.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Keyword labels measure "action language" rather than verified reversal.</strong> Of 299 posts labeled as reversal by keywords, only 21 (7%) had comment-thread evidence confirming action. This does not invalidate the keyword measure, but reframes it: the "reversal" variable in this study is best interpreted as "presence of action-oriented language in regret narratives" rather than "confirmed behavioral change." This is a common operationalization in NLP-based behavioral research, but the magnitude of the gap (kappa = 0.03) is notably low.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">57.7%</div>
+            <div class="metric-label">Agreement rate</div>
+            <div class="metric-sub">n=700 posts</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.03</div>
+            <div class="metric-label">Cohen's kappa</div>
+            <div class="metric-sub">Near-zero agreement</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">42.7%</div>
+            <div class="metric-label">Keyword reversal rate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">5.6%</div>
+            <div class="metric-label">Comment reversal rate</div>
+          </div>
+        </div>
+
+        <h4 class="skim-heading">Evidence</h4>
+        <div class="figure-block">
+          <img src="plots/29_reversal_label_agreement.png" alt="Label Agreement Analysis">
+          <div class="figure-caption">Keyword vs Comment-Based Reversal Labels: confusion matrix and disagreement categories</div>
+        </div>
+
+        <div class="figure-interpretation">
+          The 278 posts labeled as "reversal" by keywords but not confirmed by comments likely include: (1) posts describing past actions that preceded the regret rather than resulted from it; (2) posts using hypothetical action language ("I want to quit"); and (3) posts where OP did not reply in the comment thread. This finding is critical for interpreting all reversal-related results in this study.
+        </div>
+
+        <h4 class="skim-heading">Next steps</h4>
+        <div class="next-steps">
+          <strong>Planned follow-ups</strong>
+          <ul>
+            <li>Run LLM-based annotation (GPT-4o-mini) on a stratified 500-post sample for a more nuanced second opinion (script ready, requires API key)</li>
+            <li>Develop a refined reversal label that combines keyword + comment + title-flair signals into a composite score</li>
+            <li>Report sensitivity analysis: do core findings (domain differences, temporal patterns) hold when using the stricter comment-based label?</li>
+          </ul>
+        </div>
+      </div>
+
       <!-- ===== SYNTHESIS ===== -->
       <div class="synthesis-card" id="synthesis">
-        Together, these four results reveal a coherent picture: <strong>domain-level structural constraints, temporal dynamics, and the type of precipitating event</strong> are more informative predictors of reversal than linguistic sentiment alone. Domain differences are significant (<em>p</em> &lt; 0.001). VADER captures a small but real emotional signal (<em>p</em> = 0.003). Regret timing spans weeks (relationships) to years (immigration). Critically, voluntary departures reverse at 2x the rate of visa denials (53.8% vs 26.3%), and abuse-driven relationship regret leads to action as readily as voluntary endings. The Random Forest classifier achieves AUC 0.652 [0.610, 0.691]; event taxonomy features are a promising direction for improving classification in future work.
+        Together, these six results reveal a coherent picture: <strong>domain-level structural constraints, temporal dynamics, the type of precipitating event, and historical era</strong> are all more informative predictors of reversal than linguistic or community features. Domain differences are significant (p &lt; 0.001). Reversal rates diverge over time (year x domain interaction p = 0.009). Voluntary departures reverse at 2x the rate of visa denials. Propensity score matching shows the career-immigration gap narrows from 10.3 to 7.1 percentage points after matching on observables (ATT = 0.071, McNemar p = 0.074), suggesting the gap is partially but not fully explained by linguistic and temporal confounders. Critically, label validation reveals that the keyword-based "reversal" variable captures action language rather than confirmed behavior (kappa = 0.03), reframing all findings as reflecting linguistic patterns in regret narratives.
       </div>
 
     </section>
@@ -757,6 +878,138 @@
         </div>
       </div>
 
+      <!-- ===== PSYCHOLINGUISTIC FEATURES ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 7</div>
+        <h3>Future-oriented language is the strongest psycholinguistic predictor of reversal</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Five LIWC-style features computed via word-list matching: agency, hedging, social embeddedness, causal reasoning, and future orientation (normalized per 1,000 words).</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Future orientation shows the strongest association with reversal (r = -0.097, p &lt; 10<sup>-8</sup>): posts with more future-oriented language ("will", "plan to", "going to") are significantly <em>less</em> likely to contain reversal indicators. Causal reasoning (r = -0.051, p = 0.002) and social embeddedness (r = -0.042, p = 0.011) are also significant negative predictors.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>People who have already acted use less future-oriented language.</strong> The negative correlation between future orientation and reversal indicates that posts containing action language ("quit", "left") naturally contain less prospective language. Conversely, posts heavy in "plan to", "want to", "hope to" reflect ongoing deliberation rather than completed action. This validates the reversal construct: it captures posts where action has occurred, not posts where action is merely contemplated.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">r = -0.097</div>
+            <div class="metric-label">Future orient. vs reversal</div>
+            <div class="metric-sub">p &lt; 10<sup>-8</sup></div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">r = -0.051</div>
+            <div class="metric-label">Causal reasoning vs reversal</div>
+            <div class="metric-sub">p = 0.002</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">r = -0.042</div>
+            <div class="metric-label">Social embed. vs reversal</div>
+            <div class="metric-sub">p = 0.011</div>
+          </div>
+        </div>
+
+        <div class="figure-block">
+          <img src="plots/26_psycholinguistic_by_domain.png" alt="Psycholinguistic Features by Domain">
+          <div class="figure-caption">Psycholinguistic Features by Domain (per 1,000 words)</div>
+        </div>
+        <div class="figure-block">
+          <img src="plots/27_psycholinguistic_reversal.png" alt="Psycholinguistic Features by Reversal">
+          <div class="figure-caption">Psycholinguistic Feature Distributions: Reversed vs Not Reversed</div>
+        </div>
+      </div>
+
+      <!-- ===== PROPENSITY SCORE MATCHING ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 8</div>
+        <h3>Propensity score matching: career-immigration reversal gap narrows but persists</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>1:1 nearest-neighbor propensity score matching (caliper = 0.10) on 9 covariates: VADER sentiment, urgency, log post length, post year, and 5 psycholinguistic scores. Career (n=1,998) vs Immigration (n=297), yielding 297 matched pairs.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>The unmatched reversal gap is 10.3pp (career 38.5% vs immigration 28.3%). After matching, the gap narrows to 7.1pp (career 35.4% vs immigration 28.3%), with borderline significance (McNemar p = 0.074). This indicates that approximately 31% of the raw gap is explained by observable linguistic and temporal differences.</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Structural barriers explain part of the reversal gap, but a residual gap remains.</strong> Even after matching on text features, urgency, and temporal factors, immigration posts still show 7.1 percentage points lower reversal. This residual is consistent with unmeasured structural barriers (visa systems, legal constraints) that suppress action regardless of emotional or linguistic characteristics of the regret post.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">10.3pp</div>
+            <div class="metric-label">Unmatched gap</div>
+            <div class="metric-sub">Career vs Immigration</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">7.1pp</div>
+            <div class="metric-label">Matched gap (ATT)</div>
+            <div class="metric-sub">After PSM</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">p = 0.074</div>
+            <div class="metric-label">McNemar test</div>
+            <div class="metric-sub">297 matched pairs</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">31%</div>
+            <div class="metric-label">Gap explained</div>
+            <div class="metric-sub">By observables</div>
+          </div>
+        </div>
+
+        <div class="figure-block">
+          <img src="plots/28_psm_reversal_comparison.png" alt="PSM Results">
+          <div class="figure-caption">Propensity Score Matching: before/after comparison and PS distributions</div>
+        </div>
+      </div>
+
+      <!-- ===== COMMUNITY FEATURES ===== -->
+      <div class="hypothesis-card">
+        <div class="hypothesis-label">Extended 9</div>
+        <h3>Community engagement does not predict reversal: regret-action decisions are internal</h3>
+
+        <div class="finding-row">
+          <span class="finding-label">Method</span>
+          <span>Reddit post score (log), comment count (log), upvote ratio, and comment sentiment tested as predictors. Random Forest classifier with base features (sentiment + psycholinguistic) vs base + engagement features.</span>
+        </div>
+        <div class="finding-row">
+          <span class="finding-label">Finding</span>
+          <span>Post score is the only engagement metric significantly correlated with reversal (r = 0.06, p &lt; 0.001), but adding engagement features improves AUC by only +0.005 (from 0.667 to 0.672). High-engagement posts (above-median comments) show virtually identical reversal rates to low-engagement posts (38.2% vs 37.9%, chi-square p = 0.86).</span>
+        </div>
+
+        <h4 class="skim-heading">Key insight</h4>
+        <p class="skim-p"><strong>Whether a regret post gets community support has negligible effect on whether the person acts on their regret.</strong> This is a meaningful null finding: social validation through Reddit (upvotes, supportive comments) does not appear to facilitate behavioral change. Regret-to-action decisions are largely internal or driven by structural factors, not community reinforcement.</p>
+
+        <div class="metric-row">
+          <div class="metric-box">
+            <div class="metric-value">+0.005</div>
+            <div class="metric-label">AUC improvement</div>
+            <div class="metric-sub">Engagement features</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">0.672</div>
+            <div class="metric-label">Full model AUC</div>
+            <div class="metric-sub">5-fold CV</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-value">p = 0.86</div>
+            <div class="metric-label">Engagement x Reversal</div>
+            <div class="metric-sub">Chi-square test</div>
+          </div>
+        </div>
+
+        <div class="figure-block">
+          <img src="plots/31_community_features.png" alt="Community Features Analysis">
+          <div class="figure-caption">Community Engagement Features: model comparison, importances, and engagement-reversal relationship</div>
+        </div>
+      </div>
+
     </section>
 
     <!-- ==================== LIMITATIONS & FUTURE WORK ==================== -->
@@ -765,7 +1018,7 @@
         <h2 class="section-title">Limitations</h2>
         <ol class="pipeline">
           <li><strong>Selection bias</strong>: Reddit users are not representative of the general population. Regret posts self-select for people willing to share publicly, likely skewing toward more intense or unresolved experiences.</li>
-          <li><strong>Reversal labels are lexical proxies</strong>: Reversal is inferred from action verbs ("left", "quit", "ended"), not confirmed behavioral change. Some posts may describe hypothetical or planned actions rather than completed ones.</li>
+          <li><strong>Reversal labels are lexical proxies</strong>: Reversal is inferred from action verbs ("left", "quit", "ended"), not confirmed behavioral change. Comment-thread validation (kappa = 0.03, n=700) confirms that keyword labels capture "action language" rather than verified reversal. All reversal-related findings should be interpreted as reflecting linguistic patterns in regret narratives.</li>
           <li><strong>Temporal extraction coverage</strong>: Despite improvement from 10.7% to 47.2%, over half of posts lack extractable time-to-regret information. The extracted subset may differ systematically from posts without temporal markers.</li>
           <li><strong>Sample imbalance</strong>: Immigration (n=297) is substantially smaller than career (n=1,998) and relationships (n=1,309), limiting statistical power for immigration-specific analyses.</li>
           <li><strong>Cross-sectional design</strong>: Each post is a snapshot. We cannot track whether regret evolved over time or whether reversal occurred after posting.</li>
@@ -779,22 +1032,22 @@
       <div class="synthesis-card">
         <strong style="font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark);">Full Synthesis</strong>
         <p style="margin-top: 0.75rem;">
-          Across 3,604 regret posts spanning career, immigration, and relationships, this analysis identifies a consistent pattern: <strong>structural constraints and temporal dynamics are stronger predictors of reversal than emotional intensity alone.</strong>
+          Across 3,604 regret posts spanning career, immigration, and relationships, this analysis identifies a consistent pattern: <strong>structural constraints, temporal dynamics, and psycholinguistic features are stronger predictors of action-oriented regret language than emotional intensity or community engagement alone.</strong>
         </p>
         <p>
-          Domain matters (<em>p</em> &lt; 0.001): immigration posters show 36% lower hazard of reversal (Cox HR = 0.64) despite similar emotional intensity to career and relationship posters. Emotion detection confirms that sadness dominates all domains (58-64%), but its association with reversal (<em>p</em> = 0.002) is weaker than structural factors.
+          Domain matters (<em>p</em> &lt; 0.001): immigration posters show 36% lower hazard of reversal (Cox HR = 0.64). Propensity score matching narrows the career-immigration gap from 10.3pp to 7.1pp (ATT, McNemar p = 0.074), indicating that approximately 31% of the raw domain gap is explained by observable linguistic and temporal differences. The remaining 69% is consistent with unmeasured structural barriers.
         </p>
         <p>
-          The linguistic analysis validates the reversal construct: action verbs ("left", "quit") dominate reversal posts while deliberative language ("advice", "help") dominates non-reversal posts. Cross-domain generalization (AUC 0.61-0.70) demonstrates that these linguistic markers are partially domain-invariant.
+          Temporal analysis reveals that reversal patterns are not static: they diverge over time (year x domain interaction, p = 0.009), with career reversal increasing while immigration reversal declines. The Great Resignation (2021-2022) counterintuitively showed <em>lower</em> career reversal (33.6% vs 39.2%), suggesting this era's career regret reflected difficulty re-entering employment rather than desire to undo a quit.
         </p>
         <p>
-          Cox regression reveals that post length (HR = 1.53) and urgency (HR = 1.31) are the strongest temporal hazard predictors, while sentiment features lose significance in the multivariate model. The subreddit confounder analysis confirms that core findings are robust: feature coefficients change less than 5% when controlling for subreddit-level variation.
+          Psycholinguistic features provide the richest text-based signal: future orientation (r = -0.097, p &lt; 10<sup>-8</sup>), causal reasoning (r = -0.051, p = 0.002), and social embeddedness (r = -0.042, p = 0.011) all significantly predict reversal. Community engagement (upvotes, comments) adds negligible predictive value (+0.005 AUC), indicating that regret-to-action decisions are internal rather than socially facilitated.
         </p>
         <p>
-          A new triggering event taxonomy reveals that the <em>type</em> of event driving regret strongly moderates reversal rates. In immigration, voluntary departures (53.8% reversal, n=13) show 2x higher reversal than visa denials (26.3%, n=80), operationalizing "structural barriers" as a concrete measurable construct. In relationships, abuse-driven regret (45.5%) leads to action as readily as voluntary endings (45.8%), while external-pressure cases show the lowest reversal (32.2%).
+          <strong>Critical methodological caveat:</strong> Comment-thread validation (n=700, kappa = 0.03) reveals that keyword-based "reversal" labels capture action language rather than confirmed behavioral change. This reframes all findings: what we call "reversal" is best interpreted as "linguistic markers of having acted or intending to act" rather than verified post-regret behavior. This is the single most important direction for future improvement.
         </p>
         <p>
-          <strong>For future work</strong>, the most promising directions are: (1) further expanding the immigration corpus (r/h1b and r/f1visa yield very low regret density; deeper historical scraping of USCIS and IWantOut remains the highest-signal path) to reach n=600+ for adequately powered event-type tests; (2) developing event-type features that are independent of reversal labels to avoid circularity in career analysis; (3) longitudinal tracking of users across multiple posts to capture regret evolution; and (4) domain-adversarial training and causal inference methods to distinguish structural barriers from attitudinal predictors.
+          <strong>For future work</strong>, the most promising directions are: (1) developing a validated reversal label via LLM annotation + longitudinal tracking of OP follow-up posts; (2) propensity score matching with additional structural covariates (visa type, employment sector) that cannot currently be extracted from text; (3) expanding the immigration corpus through deeper historical scraping; and (4) testing whether psycholinguistic features (agency, future orientation) causally mediate the domain-reversal relationship via formal mediation analysis.
         </p>
       </div>
     </section>
