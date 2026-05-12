@@ -87,6 +87,48 @@
     .footer { background: var(--red-dark); color: rgba(255,255,255,0.85); text-align: center; padding: 1.5rem 2rem; font-size: 0.9rem; }
     .footer a { color: #FFB399; text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
+
+    /* Analyzer interactive component */
+    .analyzer-form { margin: 1.25rem 0; }
+    .analyzer-form textarea {
+      width: 100%; min-height: 120px; padding: 0.85rem 1rem; border: 2px solid #ddd; border-radius: 6px;
+      font-family: 'Crimson Pro', Georgia, serif; font-size: 1.05rem; line-height: 1.5;
+      resize: vertical; transition: border-color 0.2s;
+    }
+    .analyzer-form textarea:focus { outline: none; border-color: var(--reddit-red); }
+    .analyzer-controls { display: flex; gap: 1rem; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; }
+    .analyzer-controls select {
+      padding: 0.55rem 0.85rem; border: 2px solid #ddd; border-radius: 6px; font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem; background: white; cursor: pointer;
+    }
+    .analyzer-btn {
+      padding: 0.6rem 1.6rem; background: var(--reddit-red); color: white; border: none; border-radius: 6px;
+      font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+      letter-spacing: 0.03em; transition: background 0.2s;
+    }
+    .analyzer-btn:hover { background: var(--red-dark); }
+    .analyzer-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .analyzer-spinner { display: none; width: 20px; height: 20px; border: 3px solid #ddd; border-top-color: var(--reddit-red); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .analyzer-result { display: none; margin-top: 1.5rem; padding: 1.5rem 2rem; background: var(--accent-bg); border-radius: 8px; border: 1px solid #f0d9d0; }
+    .analyzer-result h4 { font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red-dark); margin: 0 0 1rem; }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+    .result-item { text-align: center; padding: 0.75rem 0.5rem; background: white; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+    .result-item .r-value { font-family: 'Source Sans 3', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--red-dark); }
+    .result-item .r-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.15rem; }
+    .result-item .r-sub { font-family: 'Source Sans 3', sans-serif; font-size: 0.65rem; color: var(--text-muted); }
+    .reversal-bar-bg { height: 10px; background: #e8d5cf; border-radius: 5px; overflow: hidden; margin-top: 0.4rem; }
+    .reversal-bar-fill { height: 100%; background: var(--reddit-red); border-radius: 5px; transition: width 0.6s ease; }
+    .result-interpretation { font-size: 0.95rem; padding: 0.85rem 1rem; background: white; border-radius: 6px; border-left: 3px solid var(--reddit-red); line-height: 1.55; }
+    .analyzer-error { display: none; margin-top: 1rem; padding: 0.85rem 1rem; background: #fff0f0; border: 1px solid #ffcccc; border-radius: 6px; color: #c00; font-size: 0.9rem; }
+    .analyzer-examples { margin-top: 0.75rem; }
+    .analyzer-examples button {
+      padding: 0.35rem 0.75rem; margin: 0.2rem 0.3rem 0.2rem 0; border: 1px solid #ddd; border-radius: 4px;
+      background: white; font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; cursor: pointer; color: var(--text-muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .analyzer-examples button:hover { border-color: var(--reddit-red); color: var(--red-dark); }
   </style>
 </head>
 <body>
@@ -102,6 +144,7 @@
     <a href="#methods">Methods</a>
     <a href="#results" class="active">Results</a>
     <a href="#extended">Extended</a>
+    <a href="#analyzer">Analyzer</a>
     <a href="#limitations">Limitations</a>
   </nav>
 
@@ -1012,6 +1055,66 @@
 
     </section>
 
+    <!-- ==================== INTERACTIVE ANALYZER ==================== -->
+    <section id="analyzer">
+      <div class="card">
+        <h2 class="section-title">Regret Analyzer</h2>
+        <p>
+          Paste a text describing a decision you're reflecting on. Our ML models will analyze it for emotional tone,
+          classify the life domain, and estimate the probability of decision reversal based on patterns from 3,604 Reddit regret posts.
+        </p>
+
+        <div class="analyzer-form">
+          <textarea id="analyzerInput" placeholder="Describe your situation or decision you're reflecting on... (e.g., 'I left my stable job six months ago for a startup and now I deeply regret it. The pay is terrible and I have no work-life balance.')"></textarea>
+
+          <div class="analyzer-examples">
+            <span style="font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Try an example:</span>
+            <button onclick="setExample('career')">Career regret</button>
+            <button onclick="setExample('immigration')">Immigration regret</button>
+            <button onclick="setExample('relationship')">Relationship regret</button>
+          </div>
+
+          <div class="analyzer-controls">
+            <select id="domainHint">
+              <option value="auto">Auto-detect domain</option>
+              <option value="career">Career</option>
+              <option value="immigration">Immigration</option>
+              <option value="relationships">Relationships</option>
+            </select>
+            <button class="analyzer-btn" id="analyzeBtn" onclick="runAnalysis()">Analyze</button>
+            <div class="analyzer-spinner" id="analyzerSpinner"></div>
+          </div>
+        </div>
+
+        <div class="analyzer-error" id="analyzerError"></div>
+
+        <div class="analyzer-result" id="analyzerResult">
+          <h4>Analysis Results</h4>
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="r-value" id="resEmotion">--</div>
+              <div class="r-label">Detected Emotion</div>
+              <div class="r-sub" id="resEmotionConf"></div>
+            </div>
+            <div class="result-item">
+              <div class="r-value" id="resDomain">--</div>
+              <div class="r-label">Life Domain</div>
+            </div>
+            <div class="result-item">
+              <div class="r-value" id="resReversal">--</div>
+              <div class="r-label">Reversal Probability</div>
+              <div class="reversal-bar-bg"><div class="reversal-bar-fill" id="resReversalBar" style="width:0%"></div></div>
+            </div>
+            <div class="result-item">
+              <div class="r-value" id="resUrgency">--</div>
+              <div class="r-label">Urgency Level</div>
+            </div>
+          </div>
+          <div class="result-interpretation" id="resInterpretation"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ==================== LIMITATIONS & FUTURE WORK ==================== -->
     <section id="limitations">
       <div class="card">
@@ -1069,6 +1172,88 @@
     }
     window.addEventListener('scroll', updateActive);
     updateActive();
+
+    const ANALYZER_API = 'https://regret-inference-94211160263.us-central1.run.app';
+
+    const EXAMPLES = {
+      career: "I left my stable software engineering job six months ago for a startup and now I deeply regret it. The pay cut was massive, there's no work-life balance, and I'm working 70-hour weeks. I should have never quit. I'm already looking to go back to my old company.",
+      immigration: "I moved to the US on an H1B visa two years ago and I regret it every day. The visa process is a nightmare, I can't switch jobs easily, and I feel trapped. I miss my family back home and I'm seriously considering going back, but I've already invested so much time and money.",
+      relationship: "I broke up with my girlfriend of 3 years last month and it was the worst decision of my life. I thought I wanted to be single but now I realize she was the best thing that ever happened to me. I've been trying to reach out but she won't respond to my messages."
+    };
+
+    function setExample(type) {
+      document.getElementById('analyzerInput').value = EXAMPLES[type] || '';
+      if (type === 'relationship') {
+        document.getElementById('domainHint').value = 'relationships';
+      } else {
+        document.getElementById('domainHint').value = type;
+      }
+    }
+
+    async function runAnalysis() {
+      const text = document.getElementById('analyzerInput').value.trim();
+      if (!text) { showError('Please enter some text to analyze.'); return; }
+      if (text.length < 20) { showError('Please enter a longer description (at least a couple of sentences).'); return; }
+
+      const domainHint = document.getElementById('domainHint').value;
+      const btn = document.getElementById('analyzeBtn');
+      const spinner = document.getElementById('analyzerSpinner');
+      const resultDiv = document.getElementById('analyzerResult');
+      const errorDiv = document.getElementById('analyzerError');
+
+      btn.disabled = true;
+      spinner.style.display = 'inline-block';
+      resultDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+
+      try {
+        const resp = await fetch(ANALYZER_API + '/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: text, domain_hint: domainHint })
+        });
+
+        if (!resp.ok) throw new Error('Service returned ' + resp.status);
+        const data = await resp.json();
+        displayResult(data);
+      } catch (err) {
+        showError('Could not reach the analysis service. ' + err.message);
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+
+    function displayResult(data) {
+      document.getElementById('resEmotion').textContent = capitalize(data.emotion || '--');
+      document.getElementById('resEmotionConf').textContent = data.emotion_confidence
+        ? (data.emotion_confidence * 100).toFixed(0) + '% confidence' : '';
+      document.getElementById('resDomain').textContent = capitalize(data.domain || '--');
+
+      const revPct = data.reversal_probability != null ? (data.reversal_probability * 100).toFixed(0) : '--';
+      document.getElementById('resReversal').textContent = revPct + '%';
+      document.getElementById('resReversalBar').style.width = revPct + '%';
+
+      const urg = data.urgency_score;
+      let urgLabel = '--';
+      if (urg != null) {
+        if (urg < 0.3) urgLabel = 'Low';
+        else if (urg < 0.6) urgLabel = 'Medium';
+        else urgLabel = 'High';
+        urgLabel += ' (' + urg.toFixed(2) + ')';
+      }
+      document.getElementById('resUrgency').textContent = urgLabel;
+      document.getElementById('resInterpretation').textContent = data.interpretation || '';
+      document.getElementById('analyzerResult').style.display = 'block';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('analyzerError');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   </script>
 </body>
 </html>

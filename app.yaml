@@ -1,0 +1,13 @@
+runtime: python313
+
+handlers:
+  - url: /plots
+    static_dir: plots
+
+  - url: /(.+\.png)
+    static_files: plots/\1
+    upload: plots/.+\.png
+
+  - url: /.*
+    static_files: index.html
+    upload: index.html
